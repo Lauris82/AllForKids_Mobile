@@ -100,43 +100,13 @@ public class UserService {
             us.setEmail(String.valueOf(list.get("email")));
             us.setUsername(String.valueOf(list.get("username")));
             
-            System.out.println("***********" + us.getNom());
         } else {
             us = null;
             System.err.println("Aucun User");
         }
         return us;
     }
-
-
-    public User getUser2(String json) {
-
-        try {
-            System.out.println(json);
-            JSONParser j = new JSONParser();
-
-            Map<String, Object> users = j.parseJSON(new CharArrayReader(json.toCharArray()));
-            System.out.println(users);
-           
-            List<Map<String, Object>> list = (List<Map<String, Object>>) users.get("root");
-
-            for (Map<String, Object> obj : list) {
-
-                float id = Float.parseFloat(obj.get("id").toString());
-                System.out.println(id);
-                user.setId((int) id);
-                user.setUsername(obj.get("username").toString());
-                user.setEmail(obj.get("email").toString());
-                user.setNom(obj.get("nom").toString());
-                user.setPrenom(obj.get("prenom").toString());
-                user.setAdresse(obj.get("adresse").toString());
-//                System.out.println(user);
-            }
-
-        } catch (IOException ex) {
-        }
-        return user;
-    }
+    
     
     String chaine = new String();
     public String getInfoUser(String email, String password){ 

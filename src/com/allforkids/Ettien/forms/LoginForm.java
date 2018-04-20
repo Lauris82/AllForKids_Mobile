@@ -38,7 +38,6 @@ public class LoginForm{
     
     public LoginForm(Resources theme) {
         f = new Form("Welcome To AllForKids", BoxLayout.y());
-//        f = new Form("Welcome To AllForKids", new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
         f.setUIID("LoginForm");
         f.getToolbar().setHidden(true);
         
@@ -97,9 +96,15 @@ public class LoginForm{
         
         loginButton.addActionListener((ActionListener) (ActionEvent evt) -> {
             uss = new UserService();
-            System.out.println(uss.getInfoUser(email.getText(), password.getText()));
             String res = uss.getInfoUser(email.getText(), password.getText());
             System.out.println(res);
+            
+            try {
+                user = uss.getUser(res);
+                System.out.println(user);
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
             
             if(res.contains(email.getText()) && res.contains(password.getText())){
                 HomeForm home = new HomeForm();
@@ -112,20 +117,11 @@ public class LoginForm{
         
         
         registerButton.addActionListener((ActionListener) (ActionEvent evt) -> {
-            uss = new UserService();
-            String res = uss.getInfoUser(email.getText(), password.getText());
-            try {
-                user = uss.getUser(res);
-                System.out.println(user);
-            } catch (IOException ex) {
-                System.err.println(ex.getMessage());
-            }
+            RegisterForm regsF = new RegisterForm();
+            regsF.getF().show();
         });
         
     }
-
-    
-    
     
     
     public Form getForm() {

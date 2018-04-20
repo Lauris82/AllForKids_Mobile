@@ -583,6 +583,8 @@
         <val key="RegisterButton.bgImage" value="btn_fill.png" />
         <val key="RegisterButton.bgType" value="1" />
         <val key="RegisterButton.fgColor" value="f5bf0a" />
+        <val key="RegisterForm.bgImage" value="background.png" />
+        <val key="RegisterForm.bgType" value="1" />
         <gradient key="SideCommand.bgGradient" color1="0" color2="0" posX="0.5" posY="0.5" radius="1.0" />
         <val key="SideCommand.bgType" value="0" />
         <border key="SideCommand.border" type="empty" />
