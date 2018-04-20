@@ -19,12 +19,13 @@ import com.codename1.io.NetworkManager;
 import com.codename1.ui.events.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 
 public class UserService {
+       
+    User user = new User();
 
 
     public ArrayList<User> getListTask(String json) {
@@ -41,7 +42,7 @@ public class UserService {
             List<Map<String, Object>> list = (List<Map<String, Object>>) users.get("root");
 
             for (Map<String, Object> obj : list) {
-                User user = new User();
+//                User user = new User();
 
                 // System.out.println(obj.get("id"));
                 float id = Float.parseFloat(obj.get("id").toString());
@@ -77,6 +78,72 @@ public class UserService {
         NetworkManager.getInstance().addToQueueAndWait(con);
         return listTasks;
     }
+    
+    
+    public User getUser(String json) throws IOException {
+        System.out.println("\n" + json);
+        JSONParser j = new JSONParser();
+
+        Map<String, Object> users = j.parseJSON(new CharArrayReader(json.toCharArray()));
+        User us = new User();
+
+        Map<String, Object> list;
+        list = (Map<String, Object>) users.get("root");
+        Map<String , Object> m = null  ;
+        String s = null;
+        System.out.println("**************************"+list);
+       
+        if (list != null) {
+            for (Map.Entry mapentry : list.entrySet()) {
+                System.out.println("clé: " + mapentry.getKey()
+                        + " | valeur: " + mapentry.getValue());
+            }
+            us.setId(Integer.parseInt(list.get("id").toString()));
+            us.setNom(String.valueOf(list.get("nom")));
+            us.setPrenom(String.valueOf(list.get("prenom")));
+            us.setEmail(String.valueOf(list.get("email")));
+            us.setUsername(String.valueOf(list.get("username")));
+            
+            System.out.println("***********" + us.getNom());
+        } else {
+            us = null;
+            System.err.println("Aucun User");
+        }
+        return us;
+    }
+
+
+    public User getUser2(String json) {
+
+        try {
+            System.out.println(json);
+            JSONParser j = new JSONParser();
+
+            Map<String, Object> users = j.parseJSON(new CharArrayReader(json.toCharArray()));
+            System.out.println(users);
+           
+            List<Map<String, Object>> list = (List<Map<String, Object>>) users.get("root");
+
+            for (Map<String, Object> obj : list) {
+
+                // System.out.println(obj.get("id"));
+                float id = Float.parseFloat(obj.get("id").toString());
+                System.out.println(id);
+                user.setId((int) id);
+                user.setUsername(obj.get("username").toString());
+                user.setEmail(obj.get("email").toString());
+                user.setNom(obj.get("nom").toString());
+                user.setPrenom(obj.get("prenom").toString());
+                user.setAdresse(obj.get("adresse").toString());
+                System.out.println(user);
+            }
+
+        } catch (IOException ex) {
+        }
+        return user;
+        
+    }
+    
 }
 
 
