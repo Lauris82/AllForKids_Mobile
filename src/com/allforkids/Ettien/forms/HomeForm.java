@@ -17,6 +17,11 @@ public class HomeForm {
 
     Form f;
 
+    public HomeForm(){
+        
+        f = new Form();
+        
+    }
     
     
     public Form getF() {

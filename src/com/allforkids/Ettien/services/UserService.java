@@ -81,17 +81,13 @@ public class UserService {
     
     
     public User getUser(String json) throws IOException {
-        System.out.println("\n" + json);
         JSONParser j = new JSONParser();
 
         Map<String, Object> users = j.parseJSON(new CharArrayReader(json.toCharArray()));
         User us = new User();
 
         Map<String, Object> list;
-        list = (Map<String, Object>) users.get("root");
-        Map<String , Object> m = null  ;
-        String s = null;
-        System.out.println("**************************"+list);
+        list = (Map<String, Object>) users.get("User");
        
         if (list != null) {
             for (Map.Entry mapentry : list.entrySet()) {
@@ -126,7 +122,6 @@ public class UserService {
 
             for (Map<String, Object> obj : list) {
 
-                // System.out.println(obj.get("id"));
                 float id = Float.parseFloat(obj.get("id").toString());
                 System.out.println(id);
                 user.setId((int) id);
@@ -135,13 +130,27 @@ public class UserService {
                 user.setNom(obj.get("nom").toString());
                 user.setPrenom(obj.get("prenom").toString());
                 user.setAdresse(obj.get("adresse").toString());
-                System.out.println(user);
+//                System.out.println(user);
             }
 
         } catch (IOException ex) {
         }
         return user;
-        
+    }
+    
+    String chaine = new String();
+    public String getInfoUser(String email, String password){ 
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/codename/AllForKids/selectUser.php?email="+email+"&pass="+password);  
+        con.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                byte [] data = (byte[]) evt.getMetaData();
+                chaine = new String(data);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return chaine;
     }
     
 }

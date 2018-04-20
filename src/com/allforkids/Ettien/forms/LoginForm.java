@@ -12,12 +12,10 @@ package com.allforkids.Ettien.forms;
 
 import com.allforkids.Ettien.entities.User;
 import com.allforkids.Ettien.services.UserService;
-import com.codename1.io.ConnectionRequest;
-import com.codename1.io.NetworkEvent;
-import com.codename1.io.NetworkManager;
 import com.codename1.ui.Button;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
@@ -95,37 +93,40 @@ public class LoginForm{
         Container container_fcb = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
         container_fcb.add(BorderLayout.CENTER, c_fcb_Button);
         f.add(container_fcb);
-//        f.add(c_fcb_Button);
         
         
+        loginButton.addActionListener((ActionListener) (ActionEvent evt) -> {
+            uss = new UserService();
+            System.out.println(uss.getInfoUser(email.getText(), password.getText()));
+            String res = uss.getInfoUser(email.getText(), password.getText());
+            System.out.println(res);
+            
+            if(res.contains(email.getText()) && res.contains(password.getText())){
+                HomeForm home = new HomeForm();
+                home.getF().show();
+                System.out.println("Ok verifé");
+            }else{
+                Dialog.show("Erreur", "Les informations saisies ne sont pas correctes", "Ok", "Cancel");
+            }
+        });
         
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                
-                String url = "http://localhost/codename/AllForKids/selectUser.php?email="+email.getText()+"&pass="+password.getText();
-                ConnectionRequest con = new ConnectionRequest(url);
-                
-                con.addResponseListener(new ActionListener<NetworkEvent>() {
-                    @Override
-                    public void actionPerformed(NetworkEvent evt) {
-                        user = uss.getUser2(new String(con.getResponseData()));
-                        if (user != null) {
-                            System.out.println("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
-//                            System.out.println(uss.getUser2(new String(con.getResponseData())));
-//                                user = uss.getUser(new String(con.getResponseData()));
-
-//                            HomeForm home = new HomeForm();
-//                            home.getF().show();
-                        }
-                    }
-                });
-                NetworkManager.getInstance().addToQueue(con);
+        
+        registerButton.addActionListener((ActionListener) (ActionEvent evt) -> {
+            uss = new UserService();
+            String res = uss.getInfoUser(email.getText(), password.getText());
+            try {
+                user = uss.getUser(res);
+                System.out.println(user);
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
             }
         });
         
     }
 
+    
+    
+    
     
     public Form getForm() {
         return f;
