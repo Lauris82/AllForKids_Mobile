@@ -11,6 +11,7 @@
 package com.allforkids.Ettien.forms;
 
 import com.codename1.capture.Capture;
+import com.codename1.components.ImageViewer;
 import com.codename1.io.FileSystemStorage;
 import com.codename1.ui.Button;
 import com.codename1.ui.ComboBox;
@@ -32,17 +33,23 @@ import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.spinner.Picker;
 import com.codename1.ui.util.Resources;
 import java.io.IOException;
+import java.util.Date;
 
 
 public class RegisterForm {
 
     private Resources theme;
     Form f;
-    String fileName ;
+    String emailU, usernameU, passwordU, roleU, nomU, prenomU, adresseU, imageU, fileName ; 
+    Date dateN;
+    long contactU;
     
     TextField email, username, password, rpassword, adresse, nom, prenom, contact;
+    ComboBox roles;
+    Picker birthday;
     Label filePathLabel;
-    Button retourButton, suivantButton, chooseImageButton;
+    Button retourButton, suivantButton, chooseImageButton, registerButton, cancelButton;
+    ImageViewer imageView = new ImageViewer();
     
     public RegisterForm(){
 
@@ -82,7 +89,7 @@ public class RegisterForm {
         c_rpassword.addAll(rpasswordIcon, rpassword);
         f.add(c_rpassword);
         
-        ComboBox roles = new ComboBox("Parent", "Responsable Garderie", "Responsable Club");
+        roles = new ComboBox("PARENT", "RESPONSABLE_GARDERIE", "RESPONSABLE_CLUB");
         Label rolesIcon = new Label("", "TextField");
         rolesIcon.getAllStyles().setFgColor(0xf5bf0a);
         FontImage.setMaterialIcon(rolesIcon, FontImage.MATERIAL_ASSIGNMENT, 3);
@@ -90,7 +97,7 @@ public class RegisterForm {
         c_roles.addAll(rolesIcon, roles);
         f.add(c_roles);
         
-        Picker birthday = new Picker();
+        birthday = new Picker();
         birthday.setType(Display.PICKER_TYPE_DATE);
         Label birthdayIcon = new Label("", "TextField");
         birthdayIcon.getAllStyles().setFgColor(0xf5bf0a);
@@ -134,6 +141,30 @@ public class RegisterForm {
                 System.out.println(isClear);
                 
                 if(isClear == true){
+                    
+                    ////////////////////get User Info first Page///////////////////////
+                    String recupererRole = roles.getSelectedItem().toString();
+                    roleU = "";
+                    if(recupererRole.contains("PARENT")){
+                        roleU =  "a:0:{}";
+                    }
+                    if(recupererRole.contains("RESPONSABLE_GARDERIE")){
+                        roleU = "a:1:{i:0;s:25:\"ROLE_RESPONSABLE_GARDERIE\";}";
+                    }
+                    if(recupererRole.contains("RESPONSABLE_CLUB")){
+                        roleU = "a:1:{i:0;s:21:\"ROLE_RESPONSABLE_CLUB\";}";
+                    }
+                    
+                    emailU = email.getText();
+                    usernameU = username.getText();
+                    passwordU = rpassword.getText();
+                    nomU = nom.getText();
+                    prenomU = prenom.getText();
+                    dateN = birthday.getDate();
+                    adresseU = adresse.getText();
+                    
+                    //////////////////////////////////////////////////////////
+        
                     Form page2 = new Form("Final Step", BoxLayout.y());
                     page2.setUIID("RegisterForm");
                     
@@ -167,17 +198,53 @@ public class RegisterForm {
                     
                     
                     filePathLabel = new Label("", "TextField");
+                    Container c_fileP = new Container(BoxLayout.x());
+                    c_fileP.addAll(chooseImageButton, filePathLabel);
+                    page2.add(c_fileP);
+                    
                     Container c_image = new Container(BoxLayout.x());
-                    c_image.addAll(chooseImageButton, filePathLabel);
-                    page2.add(c_image);
+                    c_image.add(imageView);
+                    Container container = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
+                    container.add(BorderLayout.CENTER, c_image);
+                    page2.add(container);
+        
+                    cancelButton = new Button("Cancel");
+                    cancelButton.setUIID("LoginButton");
+                    cancelButton.getAllStyles().setFgColor(0xffffff);
+
+                    registerButton =new Button("Next");
+                    registerButton.setUIID("RegisterButton");
+                    registerButton.getAllStyles().setFgColor(0xffffff);
+
+                    Container c_Button = new Container(BoxLayout.x());
+                    c_Button.addAll(cancelButton, registerButton);
+                    Container container_b = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
+                    container_b.add(BorderLayout.CENTER, c_Button);
+                    page2.add(container_b);
                     
-//                    
-//                    chooseImageButton.addActionListener((ActionListener) (ActionEvent evt1) -> {
-//                        chooseImageAction();
-//                    });
-                    
+                    Label hide =new Label("  ");
+                    page2.add(hide);
                     
                     page2.show();
+
+
+
+                    chooseImageButton.addActionListener((ActionListener) (ActionEvent evt1) -> {
+                        chooseImageAction();
+                    });
+                    
+                    cancelButton.addActionListener((ActionListener) (ActionEvent evt2) -> {
+                        LoginForm login = new LoginForm(theme);
+                        login.getForm().showBack();
+                    });
+                    
+                    registerButton.addActionListener((ActionListener) (ActionEvent evt3) -> {
+                        boolean isClear2 = checkSecondPage(nom, prenom, contact, filePathLabel);
+                        if(isClear2 == true){
+                            
+                        }
+                    });
+                    
                 }else{
                     Dialog.show("Erreur", "Veuillez remplir tous les champs", "Ok", "Cancel");
                 }
@@ -185,7 +252,8 @@ public class RegisterForm {
         });
         
         
-        
+        f.setScrollableY(true);
+        f.setScrollVisible(false);
     }
 
     
@@ -198,7 +266,11 @@ public class RegisterForm {
         String i = Capture.capturePhoto(Display.getInstance().getDisplayWidth(), -1);
         if(i != null){
             try {
+                
                 Image img = Image.createImage(i);
+                img.scaled(50, 50);
+                
+                imageView.setImage(img);
                 filePathLabel.setText(i);
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
@@ -210,11 +282,11 @@ public class RegisterForm {
     
     public boolean checkFirstPage(TextField em, TextField usern, TextField pass, TextField rpass, TextField adresse){
         return !em.getText().isEmpty() && !usern.getText().isEmpty() && !pass.getText().isEmpty() && !rpass.getText().isEmpty() && 
-                !adresse.getText().isEmpty();
+                !adresse.getText().isEmpty() && pass.getText().equals(rpass.getText());
     }
     
-    public boolean checkSecondPage(TextField name, TextField fname, TextField cont){
-        return !name.getText().isEmpty() && !fname.getText().isEmpty() && !cont.getText().isEmpty();
+    public boolean checkSecondPage(TextField name, TextField fname, TextField cont, Label lab){
+        return !name.getText().isEmpty() && !fname.getText().isEmpty() && !cont.getText().isEmpty() && cont.getText().length() == 8 && !lab.getText().isEmpty();
     }
     
     

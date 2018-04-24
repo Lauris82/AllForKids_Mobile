@@ -17,8 +17,12 @@ import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.ui.events.ActionListener;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -121,6 +125,53 @@ public class UserService {
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
         return chaine;
+    }
+    
+    
+    public String addUser(String email, String username, String password, String role, String nom, String prenom, Date dateN, String adresse, long contact, String image){ 
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/codename/AllForKids/insertUser.php?email=" +email+ "&=username" +username+"&pass=" +password+
+                "&role=" +role+ "&nom=" +nom+ "&prenom=" +prenom+ "&dateN=" +dateN+ "&adresse=" +adresse+
+                "&contact=" +contact+ "&image=" +image);  
+        
+        con.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                byte [] data = (byte[]) evt.getMetaData();
+                chaine = new String(data);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return chaine;
+    }
+    
+    
+    public static void uploadImage(String image, String imageName){
+        ConnectionRequest con = new ConnectionRequest();
+        
+        con.setHttpMethod("POST");
+        con.setUrl("http://localhost/AllForKids/web/image_user/text.txt");
+        con.addArgument("imagename", imageName);
+        con.addArgument("image", image);
+        con.addRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        
+        con.addResponseListener((NetworkEvent event) -> {
+            byte[] data = con.getResponseData();
+            JSONParser parser = new JSONParser();
+            Map map = null;
+            
+            try {
+                map = parser.parseJSON(new InputStreamReader(new ByteArrayInputStream(data), "UTF-8"));
+            } catch (UnsupportedEncodingException ex) {
+                System.err.println(ex.getMessage());
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+            
+            String info = (String) map.get("info");
+            System.out.println(info);
+        });
+        NetworkManager.getInstance().addToQueue(con);
     }
     
 }
