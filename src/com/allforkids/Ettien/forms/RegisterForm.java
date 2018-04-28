@@ -12,10 +12,10 @@ package com.allforkids.Ettien.forms;
 
 import com.codename1.capture.Capture;
 import com.codename1.components.ImageViewer;
-import com.codename1.io.FileSystemStorage;
+import com.codename1.io.ConnectionRequest;
+import com.codename1.io.NetworkManager;
 import com.codename1.ui.Button;
 import com.codename1.ui.ComboBox;
-import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
@@ -28,10 +28,12 @@ import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
-import com.codename1.ui.list.MultiList;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.spinner.Picker;
+import com.codename1.ui.util.ImageIO;
 import com.codename1.ui.util.Resources;
+import com.codename1.util.Base64;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Date;
 
@@ -50,6 +52,7 @@ public class RegisterForm {
     Label filePathLabel;
     Button retourButton, suivantButton, chooseImageButton, registerButton, cancelButton;
     ImageViewer imageView = new ImageViewer();
+    Image profilePic;
     
     public RegisterForm(){
 
@@ -158,9 +161,8 @@ public class RegisterForm {
                     emailU = email.getText();
                     usernameU = username.getText();
                     passwordU = rpassword.getText();
-                    nomU = nom.getText();
-                    prenomU = prenom.getText();
                     dateN = birthday.getDate();
+                    System.out.println(dateN);
                     adresseU = adresse.getText();
                     
                     //////////////////////////////////////////////////////////
@@ -212,7 +214,7 @@ public class RegisterForm {
                     cancelButton.setUIID("LoginButton");
                     cancelButton.getAllStyles().setFgColor(0xffffff);
 
-                    registerButton =new Button("Next");
+                    registerButton =new Button("Register");
                     registerButton.setUIID("RegisterButton");
                     registerButton.getAllStyles().setFgColor(0xffffff);
 
@@ -230,7 +232,18 @@ public class RegisterForm {
 
 
                     chooseImageButton.addActionListener((ActionListener) (ActionEvent evt1) -> {
-                        chooseImageAction();
+                        String i = Capture.capturePhoto(Display.getInstance().getDisplayWidth(), -1);
+                        if(i != null){
+                            try {
+                                profilePic = Image.createImage(i);
+
+                                imageView.setImage(profilePic);
+                                filePathLabel.setText(i);
+                                System.out.println(i);
+                            } catch (IOException ex) {
+                                System.err.println(ex.getMessage());
+                            }
+                        }
                     });
                     
                     cancelButton.addActionListener((ActionListener) (ActionEvent evt2) -> {
@@ -242,6 +255,31 @@ public class RegisterForm {
                         boolean isClear2 = checkSecondPage(nom, prenom, contact, filePathLabel);
                         if(isClear2 == true){
                             
+                            if(profilePic != null){
+                                ImageIO imgIO = ImageIO.getImageIO();
+                                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                                try {
+                                    imgIO.save(profilePic, out, ImageIO.FORMAT_JPEG, 1);
+                                } catch (IOException ex) {
+                                    System.err.println(ex.getMessage());
+                                }
+                                byte[] ba = out.toByteArray();
+                                String Imagecode = Base64.encode(ba);
+                                ConnectionRequest request = new ConnectionRequest(){
+                                    protected void handleErrorResponsableCode(int code, String message){
+                                        System.out.println("Code :"+code+" Msg :"+message);
+                                    }
+                                };
+                                request.setPost(true);
+                                request.setHttpMethod("POST");
+                                request.addArgument("Image", Imagecode);
+                                request.setUrl("http://localhost/AllForKids/web/image_user/text.txt");
+                                NetworkManager.getInstance().addToQueueAndWait(request);
+                                
+                                Dialog.show("Info", "Image Upload with succes", "Ok", "Cancel");
+                            }else{
+                                Dialog.show("Erreur", "Unable to upload", "Ok", "Cancel");
+                            }
                         }
                     });
                     

@@ -103,6 +103,7 @@ public class UserService {
             us.setPrenom(String.valueOf(list.get("prenom")));
             us.setEmail(String.valueOf(list.get("email")));
             us.setUsername(String.valueOf(list.get("username")));
+            us.setContact(Long.parseLong(list.get("contact").toString()));
             
         } else {
             us = null;
@@ -127,6 +128,20 @@ public class UserService {
         return chaine;
     }
     
+    public String getInfoUserByEmail(String email){ 
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/codename/AllForKids/selectUserByEmail.php?email="+email);  
+        con.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                byte [] data = (byte[]) evt.getMetaData();
+                chaine = new String(data);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return chaine;
+    }
+    
     
     public String addUser(String email, String username, String password, String role, String nom, String prenom, Date dateN, String adresse, long contact, String image){ 
         ConnectionRequest con = new ConnectionRequest();
@@ -140,6 +155,19 @@ public class UserService {
                 byte [] data = (byte[]) evt.getMetaData();
                 chaine = new String(data);
             }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return chaine;
+    }
+    
+    
+    public String updatePassword(String email, String password){ 
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/codename/AllForKids/updatePassword.php?email=" +email+ "&pass=" +password);  
+        
+        con.addResponseListener((NetworkEvent evt) -> {
+            byte [] data = (byte[]) evt.getMetaData();
+            chaine = new String(data);
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
         return chaine;

@@ -11,6 +11,7 @@
 package com.allforkids.Ettien.forms;
 
 import com.allforkids.Ettien.entities.User;
+import com.allforkids.Ettien.services.FacebookService;
 import com.allforkids.Ettien.services.UserService;
 import com.codename1.ui.Button;
 import com.codename1.ui.Component;
@@ -31,11 +32,12 @@ import java.io.IOException;
 
 
 public class LoginForm{
-
+    
+    boolean is_connect;
     public static User user;
     public UserService uss;
     Form f;
-    
+   
     public LoginForm(Resources theme) {
         f = new Form("Welcome To AllForKids", BoxLayout.y());
         f.setUIID("LoginForm");
@@ -84,14 +86,17 @@ public class LoginForm{
         container.add(BorderLayout.CENTER, c_Button);
         f.add(container);
         
+        Label forget_password = new Label("Forget Password");
+        forget_password.getAllStyles().setFgColor(0xf5bf0a);
         Button facebookButton = new Button("Facebook");
         facebookButton.setUIID("FacebookButton");
         facebookButton.getAllStyles().setFgColor(0xffffff);
         Container c_fcb_Button = new Container(BoxLayout.x());
-        c_fcb_Button.add(facebookButton);
+        c_fcb_Button.addAll(facebookButton, forget_password);
         Container container_fcb = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
         container_fcb.add(BorderLayout.CENTER, c_fcb_Button);
         f.add(container_fcb);
+        
         
         
         loginButton.addActionListener((ActionListener) (ActionEvent evt) -> {
@@ -121,7 +126,24 @@ public class LoginForm{
             regsF.getF().show();
         });
         
+        
+        facebookButton.addActionListener((ActionListener) (ActionEvent evt) -> {
+            FacebookService fb_service = new FacebookService();
+            is_connect = fb_service.loginWithFacebook();
+        });
+        if(is_connect == true){
+            HomeForm home = new HomeForm();
+            home.getF().show();
+        }
+        
+        forget_password.addPointerPressedListener((ActionListener) (ActionEvent evt) -> {
+            ForgetPasswordForm fpf = new ForgetPasswordForm();
+            fpf.getF().show();
+        });
+        
     }
+
+    public LoginForm() {}
     
     
     public Form getForm() {
