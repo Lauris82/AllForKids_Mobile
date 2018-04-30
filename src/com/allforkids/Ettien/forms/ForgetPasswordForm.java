@@ -74,8 +74,6 @@ public final class ForgetPasswordForm {
                 Dialog.show("Erreur", "Adresse Mail incorrecte", "Ok", "Cancel");
             }
         });
-        
-        
     }
     
 
@@ -157,7 +155,7 @@ public final class ForgetPasswordForm {
     
     
     public void setUpThirdStep(){
-                System.out.println("Debug -----");
+        System.out.println("Debug -----");
         
         password = new TextField("", "Enter new Password", 20, TextField.PASSWORD);
         Container c_password = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));

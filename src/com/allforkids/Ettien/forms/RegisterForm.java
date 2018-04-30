@@ -10,10 +10,15 @@
 
 package com.allforkids.Ettien.forms;
 
-import com.codename1.capture.Capture;
+
+import com.allforkids.Ettien.services.UserService;
 import com.codename1.components.ImageViewer;
+import com.codename1.components.InfiniteProgress;
 import com.codename1.io.ConnectionRequest;
+import com.codename1.io.FileSystemStorage;
+import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
+import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.Button;
 import com.codename1.ui.ComboBox;
 import com.codename1.ui.Container;
@@ -30,19 +35,24 @@ import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.spinner.Picker;
-import com.codename1.ui.util.ImageIO;
 import com.codename1.ui.util.Resources;
+import com.codename1.ui.util.ImageIO;
 import com.codename1.util.Base64;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.Random;
+
+
 
 
 public class RegisterForm {
 
     private Resources theme;
     Form f;
-    String emailU, usernameU, passwordU, roleU, nomU, prenomU, adresseU, imageU, fileName ; 
+    private String verifCode;
+    private String imageName;
+    String emailU, usernameU, passwordU, roleU, nomU, prenomU, adresseU, imageU = null, imgEncoded, stp = null ; 
     Date dateN;
     long contactU;
     
@@ -53,6 +63,8 @@ public class RegisterForm {
     Button retourButton, suivantButton, chooseImageButton, registerButton, cancelButton;
     ImageViewer imageView = new ImageViewer();
     Image profilePic;
+    
+    UserService uss = new UserService();
     
     public RegisterForm(){
 
@@ -102,6 +114,10 @@ public class RegisterForm {
         
         birthday = new Picker();
         birthday.setType(Display.PICKER_TYPE_DATE);
+        
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        birthday.setFormatter(formatter);
+        
         Label birthdayIcon = new Label("", "TextField");
         birthdayIcon.getAllStyles().setFgColor(0xf5bf0a);
         FontImage.setMaterialIcon(birthdayIcon, FontImage.MATERIAL_DATE_RANGE, 3);
@@ -141,7 +157,7 @@ public class RegisterForm {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 boolean isClear = checkFirstPage(email, username, password, rpassword, adresse);
-                System.out.println(isClear);
+//                System.out.println(isClear);
                 
                 if(isClear == true){
                     
@@ -162,11 +178,14 @@ public class RegisterForm {
                     usernameU = username.getText();
                     passwordU = rpassword.getText();
                     dateN = birthday.getDate();
-                    System.out.println(dateN);
                     adresseU = adresse.getText();
                     
-                    //////////////////////////////////////////////////////////
+                    String dateN_s = formatter.format(dateN);
+                    System.out.println(dateN_s);
         
+                        //////////////////////////////////////////////////////////
+                        
+                        
                     Form page2 = new Form("Final Step", BoxLayout.y());
                     page2.setUIID("RegisterForm");
                     
@@ -232,18 +251,8 @@ public class RegisterForm {
 
 
                     chooseImageButton.addActionListener((ActionListener) (ActionEvent evt1) -> {
-                        String i = Capture.capturePhoto(Display.getInstance().getDisplayWidth(), -1);
-                        if(i != null){
-                            try {
-                                profilePic = Image.createImage(i);
-
-                                imageView.setImage(profilePic);
-                                filePathLabel.setText(i);
-                                System.out.println(i);
-                            } catch (IOException ex) {
-                                System.err.println(ex.getMessage());
-                            }
-                        }
+                        chooseImage();
+                        f.refreshTheme();
                     });
                     
                     cancelButton.addActionListener((ActionListener) (ActionEvent evt2) -> {
@@ -252,34 +261,43 @@ public class RegisterForm {
                     });
                     
                     registerButton.addActionListener((ActionListener) (ActionEvent evt3) -> {
-                        boolean isClear2 = checkSecondPage(nom, prenom, contact, filePathLabel);
+                        boolean isClear2 = checkSecondPage(nom, prenom, contact);
                         if(isClear2 == true){
                             
-                            if(profilePic != null){
-                                ImageIO imgIO = ImageIO.getImageIO();
-                                ByteArrayOutputStream out = new ByteArrayOutputStream();
-                                try {
-                                    imgIO.save(profilePic, out, ImageIO.FORMAT_JPEG, 1);
-                                } catch (IOException ex) {
-                                    System.err.println(ex.getMessage());
-                                }
-                                byte[] ba = out.toByteArray();
-                                String Imagecode = Base64.encode(ba);
-                                ConnectionRequest request = new ConnectionRequest(){
-                                    protected void handleErrorResponsableCode(int code, String message){
-                                        System.out.println("Code :"+code+" Msg :"+message);
-                                    }
-                                };
-                                request.setPost(true);
-                                request.setHttpMethod("POST");
-                                request.addArgument("Image", Imagecode);
-                                request.setUrl("http://localhost/AllForKids/web/image_user/text.txt");
-                                NetworkManager.getInstance().addToQueueAndWait(request);
-                                
-                                Dialog.show("Info", "Image Upload with succes", "Ok", "Cancel");
-                            }else{
-                                Dialog.show("Erreur", "Unable to upload", "Ok", "Cancel");
+                            boolean longExiste = isLong(contact);
+                            if(longExiste == true){
+                                contactU = Long.parseLong(contact.getText());
                             }
+                            nomU = nom.getText();
+                            prenomU = prenom.getText();
+                            
+//                            System.out.println("Bien");
+                            try {
+                                stp = encodeImageToBase64();
+                            } catch (IOException ex) {
+                                System.err.println(ex.getMessage());
+                            }
+                            try {
+                                stp = uploadImage_ToServer(nom.getText());
+                                System.out.println(imageName);
+                            } catch (IOException ex) {
+                                System.err.println(ex.getMessage());
+                            }
+                            String result;
+                            result = uss.addUser(emailU, usernameU, passwordU, roleU, nomU, prenomU, dateN_s, adresseU, contactU, imageName);
+                            System.out.println(result);
+                            if(result.contains("success")){
+                                Dialog.show("Succes", "Votre compte a ete cree", "Ok", "Cancel");
+                                LoginForm login = new LoginForm(theme);
+                                login.getForm().showBack();
+                            }else{
+                                Dialog.show("Erreur", "La creation du compte a echoue", "Ok", "Cancel");
+                                LoginForm login = new LoginForm(theme);
+                                login.getForm().showBack();
+                            }
+                           
+                        }else{
+                            Dialog.show("Erreur", "Verifiez vos informations", "Ok", "Cancel");
                         }
                     });
                     
@@ -295,36 +313,13 @@ public class RegisterForm {
     }
 
     
-    
-    
-    
-    
-    
-    public void chooseImageAction(){
-        String i = Capture.capturePhoto(Display.getInstance().getDisplayWidth(), -1);
-        if(i != null){
-            try {
-                
-                Image img = Image.createImage(i);
-                img.scaled(50, 50);
-                
-                imageView.setImage(img);
-                filePathLabel.setText(i);
-            } catch (IOException ex) {
-                System.err.println(ex.getMessage());
-            }
-        }
-    }
-    
-    
-    
     public boolean checkFirstPage(TextField em, TextField usern, TextField pass, TextField rpass, TextField adresse){
         return !em.getText().isEmpty() && !usern.getText().isEmpty() && !pass.getText().isEmpty() && !rpass.getText().isEmpty() && 
                 !adresse.getText().isEmpty() && pass.getText().equals(rpass.getText());
     }
     
-    public boolean checkSecondPage(TextField name, TextField fname, TextField cont, Label lab){
-        return !name.getText().isEmpty() && !fname.getText().isEmpty() && !cont.getText().isEmpty() && cont.getText().length() == 8 && !lab.getText().isEmpty();
+    public boolean checkSecondPage(TextField name, TextField fname, TextField cont){
+        return !name.getText().isEmpty() && !fname.getText().isEmpty() && !cont.getText().isEmpty() && cont.getText().length() == 8;
     }
     
     
@@ -335,7 +330,102 @@ public class RegisterForm {
     public void setF(Form f) {
         this.f = f;
     }
+
+    public Image getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(Image profilePic) {
+        this.profilePic = profilePic;
+    }
     
+    
+    public void chooseImage(){
+        Display.getInstance().openGallery((ActionListener) new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ev) {
+                if (ev != null && ev.getSource() != null) {
+                    try {
+                        String filePath = (String) ev.getSource();
+                        int fileNameIndex = filePath.lastIndexOf("/") + 1;
+                        String fileName = filePath.substring(fileNameIndex);
+                        
+                        Image imge = null;
+                        imge = Image.createImage(FileSystemStorage.getInstance().openInputStream(filePath));
+                        setProfilePic(imge);
+                        imageView.setImage(imge);
+                        f.refreshTheme();
+                    } catch (IOException ex) {
+                        System.err.println(ex.getMessage());
+                    }
+                }
+            }
+        }, Display.GALLERY_IMAGE);
+    }
+    
+    
+    public String encodeImageToBase64() throws IOException{
+        ImageIO imgIO = ImageIO.getImageIO();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
+            imgIO.save(getProfilePic(), out, ImageIO.FORMAT_JPEG, 1);
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+        }
+        byte[] ba = out.toByteArray();
+        imgEncoded = Base64.encode(ba);
+        
+        return imgEncoded;
+    }
+    
+    
+    String chaine;
+    public String uploadImage_ToServer(String imgName) throws IOException{
+        verifCode = makeVerifCode();
+        imageName = imgName+verifCode+".jpg";
+        ConnectionRequest con = new ConnectionRequest();
+        con.setPost(true);
+        con.setHttpMethod("POST");
+        con.addArgument("Image", imgEncoded);
+        con.addArgument("Name", imageName);
+        con.setUrl("http://localhost:80/Upload_image.php");
+        
+        con.addResponseListener((NetworkEvent evt) -> {
+            byte[] data = con.getResponseData();
+            chaine = new String(data);
+//            System.out.println(chaine);
+        });
+        
+        InfiniteProgress prog = new InfiniteProgress();
+        Dialog dlg = prog.showInifiniteBlocking();
+        con.setDisposeOnCompletion(dlg);
+        NetworkManager.getInstance().addToQueue(con);
+        
+        return chaine;
+    }
+    
+
+    private boolean isLong(TextField input){
+        try{
+            long age = Long.parseLong(input.getText());
+            return true;
+        }catch(NumberFormatException e){
+            return false;
+        }
+    }
+    
+    
+
+    public String makeVerifCode() {
+        String randomString = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        Random rand = new Random();
+        verifCode = "";
+        for (int i = 0; i < 5; i++) {
+            int n = rand.nextInt(randomString.length());
+            verifCode += randomString.charAt(n);
+        }
+        return verifCode;
+    }
 }
 
 

@@ -11,18 +11,15 @@
 package com.allforkids.Ettien.services;
 
 import com.allforkids.Ettien.entities.User;
+import com.codename1.components.InfiniteProgress;
 import com.codename1.io.CharArrayReader;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
-import com.codename1.ui.events.ActionListener;
-import java.io.ByteArrayInputStream;
+import com.codename1.ui.Dialog;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -72,12 +69,9 @@ public class UserService {
     public ArrayList<User> getList2(){       
         ConnectionRequest con = new ConnectionRequest();
         con.setUrl("http://localhost/Allforkids/web/app_dev.php/api/users/all");  
-        con.addResponseListener(new ActionListener<NetworkEvent>() {
-            @Override
-            public void actionPerformed(NetworkEvent evt) {
-                UserService uss = new UserService();
-                listTasks = uss.getListTask(new String(con.getResponseData()));
-            }
+        con.addResponseListener((NetworkEvent evt) -> {
+            UserService uss = new UserService();
+            listTasks = uss.getListTask(new String(con.getResponseData()));
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
         return listTasks;
@@ -117,46 +111,48 @@ public class UserService {
     public String getInfoUser(String email, String password){ 
         ConnectionRequest con = new ConnectionRequest();
         con.setUrl("http://localhost/codename/AllForKids/selectUser.php?email="+email+"&pass="+password);  
-        con.addResponseListener(new ActionListener<NetworkEvent>() {
-            @Override
-            public void actionPerformed(NetworkEvent evt) {
-                byte [] data = (byte[]) evt.getMetaData();
-                chaine = new String(data);
-            }
+        con.addResponseListener((NetworkEvent evt) -> {
+            byte [] data = (byte[]) evt.getMetaData();
+            chaine = new String(data);
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
         return chaine;
     }
+    
     
     public String getInfoUserByEmail(String email){ 
         ConnectionRequest con = new ConnectionRequest();
         con.setUrl("http://localhost/codename/AllForKids/selectUserByEmail.php?email="+email);  
-        con.addResponseListener(new ActionListener<NetworkEvent>() {
-            @Override
-            public void actionPerformed(NetworkEvent evt) {
-                byte [] data = (byte[]) evt.getMetaData();
-                chaine = new String(data);
-            }
+        con.addResponseListener((NetworkEvent evt) -> {
+            byte [] data = (byte[]) evt.getMetaData();
+            chaine = new String(data);
         });
+        
+        InfiniteProgress prog = new InfiniteProgress();
+        Dialog dlg = prog.showInifiniteBlocking();
+        con.setDisposeOnCompletion(dlg);
         NetworkManager.getInstance().addToQueueAndWait(con);
+        
         return chaine;
     }
     
     
-    public String addUser(String email, String username, String password, String role, String nom, String prenom, Date dateN, String adresse, long contact, String image){ 
+    public String addUser(String email, String username, String password, String role, String nom, String prenom, String dateN, String adresse, long contact, String image){ 
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/codename/AllForKids/insertUser.php?email=" +email+ "&=username" +username+"&pass=" +password+
-                "&role=" +role+ "&nom=" +nom+ "&prenom=" +prenom+ "&dateN=" +dateN+ "&adresse=" +adresse+
+        con.setUrl("http://localhost/codename/AllForKids/insertUser.php?email=" +email+ "&username=" +username+"&pass=" +password+
+                "&role=" +role+ "&nom=" +nom+ "&prenom=" +prenom+ "&dateb=" +dateN+ "&adresse=" +adresse+
                 "&contact=" +contact+ "&image=" +image);  
         
-        con.addResponseListener(new ActionListener<NetworkEvent>() {
-            @Override
-            public void actionPerformed(NetworkEvent evt) {
-                byte [] data = (byte[]) evt.getMetaData();
-                chaine = new String(data);
-            }
+        con.addResponseListener((NetworkEvent evt) -> {
+            byte [] data = (byte[]) evt.getMetaData();
+            chaine = new String(data);
         });
+        
+        InfiniteProgress prog = new InfiniteProgress();
+        Dialog dlg = prog.showInifiniteBlocking();
+        con.setDisposeOnCompletion(dlg);
         NetworkManager.getInstance().addToQueueAndWait(con);
+        
         return chaine;
     }
     
@@ -169,37 +165,37 @@ public class UserService {
             byte [] data = (byte[]) evt.getMetaData();
             chaine = new String(data);
         });
+        
+        InfiniteProgress prog = new InfiniteProgress();
+        Dialog dlg = prog.showInifiniteBlocking();
+        con.setDisposeOnCompletion(dlg);
         NetworkManager.getInstance().addToQueueAndWait(con);
+        
         return chaine;
     }
     
     
-    public static void uploadImage(String image, String imageName){
-        ConnectionRequest con = new ConnectionRequest();
-        
-        con.setHttpMethod("POST");
-        con.setUrl("http://localhost/AllForKids/web/image_user/text.txt");
-        con.addArgument("imagename", imageName);
-        con.addArgument("image", image);
-        con.addRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        
-        con.addResponseListener((NetworkEvent event) -> {
-            byte[] data = con.getResponseData();
-            JSONParser parser = new JSONParser();
-            Map map = null;
-            
-            try {
-                map = parser.parseJSON(new InputStreamReader(new ByteArrayInputStream(data), "UTF-8"));
-            } catch (UnsupportedEncodingException ex) {
-                System.err.println(ex.getMessage());
-            } catch (IOException ex) {
-                System.err.println(ex.getMessage());
-            }
-            
-            String info = (String) map.get("info");
-            System.out.println(info);
-        });
-        NetworkManager.getInstance().addToQueue(con);
+    public static String replaceAll(String source, String pattern, String replace) {
+        StringBuilder sb = new StringBuilder();
+        String lowSource = source.toLowerCase();
+        pattern = pattern.toLowerCase();
+        int idx = 0;
+        String workingSource = source;
+        idx = workingSource.indexOf(pattern);
+        if(idx == -1){
+            return source;
+        }
+       
+        while (idx != -1) {
+            sb.append(workingSource.substring(0, idx));
+            sb.append(replace);
+            workingSource = workingSource.substring(idx + pattern.length());
+            lowSource = lowSource.substring(idx + pattern.length());
+            idx = lowSource.indexOf(pattern);            
+        }
+        sb.append(workingSource);
+
+        return sb.toString();
     }
     
 }
