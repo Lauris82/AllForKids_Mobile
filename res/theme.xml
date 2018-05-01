@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<resource majorVersion="1" minorVersion="7" useXmlUI="false">
+<resource majorVersion="1" minorVersion="9" useXmlUI="false">
     <image name="back-command.png" type="multi"  />
     <image name="back-command.png1" type="multi"  />
     <image name="background.png"  />
     <image name="border.png"  />
     <image name="border.png1"  />
+    <image name="brick.png"  />
     <image name="btn_fill.png"  />
+    <image name="bus.png"  />
     <image name="Button.borderBottom_2.png" type="multi"  />
     <image name="Button.borderBottom_2.png1" type="multi"  />
     <image name="Button.borderBottomL_2.png" type="multi"  />
@@ -69,6 +71,7 @@
     <image name="ComboBox.sel#borderTopL_1.png1" type="multi"  />
     <image name="ComboBox.sel#borderTopR_1.png" type="multi"  />
     <image name="ComboBox.sel#borderTopR_1.png1" type="multi"  />
+    <image name="default_user.png" type="multi"  />
     <image name="Dialog.borderBottom_1.png" type="multi"  />
     <image name="Dialog.borderBottom_1.png1" type="multi"  />
     <image name="Dialog.borderBottomL_1.png" type="multi"  />
@@ -87,8 +90,11 @@
     <image name="Dialog.borderTopL_1.png1" type="multi"  />
     <image name="Dialog.borderTopR_1.png" type="multi"  />
     <image name="Dialog.borderTopR_1.png1" type="multi"  />
+    <image name="event.png"  />
     <image name="fcb_btn_fill.png"  />
+    <image name="garderie.png"  />
     <image name="logo.png"  />
+    <image name="meeting.png"  />
     <image name="Menu.borderBottom_1.png" type="multi"  />
     <image name="Menu.borderBottom_1.png1" type="multi"  />
     <image name="Menu.borderBottomL_1.png" type="multi"  />
@@ -210,9 +216,9 @@
         <val key="CalendarDateLabel.fgColor" value="ffffff" />
         <font key="CalendarDateLabel.font" type="ttf" face="0" style="1" size="16" name="native:MainThin" family="native:MainThin" sizeSettings="3" actualSize="4.0" />
         <val key="CalendarDay.align" value="4" />
-        <border key="CalendarDay.border" type="line" thickness="1" color="13421772" />
+        <border key="CalendarDay.border" type="line" millimeters="false" thickness="1.0" color="13421772" />
         <val key="CalendarDay.dis#align" value="4" />
-        <border key="CalendarDay.dis#border" type="line" thickness="1" color="13421772" />
+        <border key="CalendarDay.dis#border" type="line" millimeters="false" thickness="1.0" color="13421772" />
         <val key="CalendarDay.dis#fgColor" value="999999" />
         <font key="CalendarDay.dis#font" type="system" face="0" style="0" size="0" />
         <val key="CalendarDay.dis#margin" value="0,0,0,0" />
@@ -221,13 +227,13 @@
         <font key="CalendarDay.font" type="ttf" face="0" style="0" size="0" name="native:MainRegular" family="native:MainRegular" sizeSettings="3" actualSize="3.0" />
         <val key="CalendarDay.margin" value="0,0,0,0" />
         <val key="CalendarDay.press#align" value="4" />
-        <border key="CalendarDay.press#border" type="line" thickness="1" color="13421772" />
+        <border key="CalendarDay.press#border" type="line" millimeters="false" thickness="1.0" color="13421772" />
         <val key="CalendarDay.press#fgColor" value="0" />
         <font key="CalendarDay.press#font" type="ttf" face="0" style="0" size="0" name="native:MainRegular" family="native:MainRegular" sizeSettings="3" actualSize="3.0" />
         <val key="CalendarDay.press#margin" value="0,0,0,0" />
         <val key="CalendarDay.press#transparency" value="0" />
         <val key="CalendarDay.sel#align" value="4" />
-        <border key="CalendarDay.sel#border" type="line" thickness="1" color="13421772" />
+        <border key="CalendarDay.sel#border" type="line" millimeters="false" thickness="1.0" color="13421772" />
         <val key="CalendarDay.sel#fgColor" value="0" />
         <font key="CalendarDay.sel#font" type="ttf" face="0" style="0" size="0" name="native:MainRegular" family="native:MainRegular" sizeSettings="3" actualSize="3.0" />
         <val key="CalendarDay.sel#margin" value="0,0,0,0" />
@@ -237,13 +243,13 @@
         <val key="CalendarDayArea.padding" value="0,0,0,0" />
         <val key="CalendarSelectedDay.align" value="4" />
         <val key="CalendarSelectedDay.bgColor" value="ff7800" />
-        <border key="CalendarSelectedDay.border" type="line" thickness="1" color="13421772" />
+        <border key="CalendarSelectedDay.border" type="line" millimeters="false" thickness="1.0" color="13421772" />
         <val key="CalendarSelectedDay.fgColor" value="ffffff" />
         <font key="CalendarSelectedDay.font" type="ttf" face="0" style="0" size="0" name="native:MainRegular" family="native:MainRegular" sizeSettings="3" actualSize="3.0" />
         <val key="CalendarSelectedDay.margin" value="0,0,0,0" />
         <val key="CalendarSelectedDay.press#align" value="4" />
         <val key="CalendarSelectedDay.press#bgColor" value="ff7800" />
-        <border key="CalendarSelectedDay.press#border" type="line" thickness="1" color="13421772" />
+        <border key="CalendarSelectedDay.press#border" type="line" millimeters="false" thickness="1.0" color="13421772" />
         <val key="CalendarSelectedDay.press#fgColor" value="999999" />
         <font key="CalendarSelectedDay.press#font" type="system" face="0" style="0" size="0" />
         <val key="CalendarSelectedDay.press#margin" value="0,0,0,0" />
@@ -646,42 +652,59 @@
         <val key="RegisterButton.fgColor" value="f5bf0a" />
         <val key="RegisterForm.bgImage" value="background.png" />
         <val key="RegisterForm.bgType" value="1" />
-        <gradient key="SideCommand.bgGradient" color1="0" color2="0" posX="0.5" posY="0.5" radius="1.0" />
-        <val key="SideCommand.bgType" value="0" />
+        <val key="SideCommand.align" value="1" />
+        <val key="SideCommand.bgColor" value="dadbce" />
+        <val key="SideCommand.bgImage" value="background.png" />
+        <val key="SideCommand.bgType" value="1" />
         <border key="SideCommand.border" type="empty" />
-        <val key="SideCommand.fgColor" value="ffffff" />
-        <font key="SideCommand.font" type="ttf" face="0" style="1" size="16" name="native:MainRegular" family="native:MainRegular" sizeSettings="3" actualSize="3.0" />
-        <val key="SideCommand.marUnit" value="2,2,2,2" />
-        <val key="SideCommand.margin" value="1,0,1,1" />
-        <val key="SideCommand.padUnit" value="2,0,2,0" />
-        <val key="SideCommand.padding" value="1,1,0,0" />
-        <gradient key="SideCommand.press#bgGradient" color1="0" color2="0" posX="0.5" posY="0.5" radius="1.0" />
+        <val key="SideCommand.fgColor" value="a7a6aa" />
+        <font key="SideCommand.font" type="ttf" face="0" style="0" size="0" name="native:MainLight" family="native:MainLight" sizeSettings="1" actualSize="12.0" />
+        <val key="SideCommand.margin" value="0.0,1.0,0.0,0.0" />
+        <val key="SideCommand.padUnit" value="2,2,2,2" />
+        <val key="SideCommand.padding" value="3.0,3.0,3.0,3.0" />
+        <val key="SideCommand.press#bgColor" value="dadbce" />
+        <gradient key="SideCommand.press#bgGradient" color1="10066329" color2="26265" posX="0.5" posY="0.5" radius="1.0" />
         <val key="SideCommand.press#bgType" value="0" />
         <border key="SideCommand.press#border" type="empty" />
-        <val key="SideCommand.press#fgColor" value="ffffff" />
+        <val key="SideCommand.press#derive" value="SideCommand" />
+        <val key="SideCommand.press#fgColor" value="a7a6aa" />
         <font key="SideCommand.press#font" type="ttf" face="0" style="1" size="16" name="native:MainRegular" family="native:MainRegular" sizeSettings="3" actualSize="3.0" />
         <val key="SideCommand.press#marUnit" value="2,2,2,2" />
-        <val key="SideCommand.press#margin" value="1,0,1,1" />
+        <val key="SideCommand.press#margin" value="1.0,0.0,1.0,1.0" />
         <val key="SideCommand.press#padUnit" value="2,0,2,0" />
-        <val key="SideCommand.press#padding" value="1,1,0,0" />
+        <val key="SideCommand.press#padding" value="1.0,1.0,0.0,0.0" />
         <val key="SideCommand.press#textDecoration" value="0" />
-        <val key="SideCommand.press#transparency" value="0" />
+        <val key="SideCommand.press#transparency" value="255" />
+        <val key="SideCommand.sel#bgColor" value="dadbce" />
         <gradient key="SideCommand.sel#bgGradient" color1="0" color2="0" posX="0.5" posY="0.5" radius="1.0" />
         <val key="SideCommand.sel#bgType" value="0" />
         <border key="SideCommand.sel#border" type="empty" />
-        <val key="SideCommand.sel#fgColor" value="ffffff" />
+        <val key="SideCommand.sel#derive" value="SideCommand" />
+        <val key="SideCommand.sel#fgColor" value="a7a6aa" />
         <font key="SideCommand.sel#font" type="ttf" face="0" style="1" size="16" name="native:MainRegular" family="native:MainRegular" sizeSettings="3" actualSize="3.0" />
         <val key="SideCommand.sel#marUnit" value="2,2,2,2" />
-        <val key="SideCommand.sel#margin" value="1,0,1,1" />
+        <val key="SideCommand.sel#margin" value="1.0,0.0,1.0,1.0" />
         <val key="SideCommand.sel#padUnit" value="2,0,2,0" />
-        <val key="SideCommand.sel#padding" value="1,1,0,0" />
+        <val key="SideCommand.sel#padding" value="1.0,1.0,0.0,0.0" />
         <val key="SideCommand.sel#textDecoration" value="0" />
         <val key="SideCommand.sel#transparency" value="0" />
-        <val key="SideCommand.textDecoration" value="0" />
-        <val key="SideCommand.transparency" value="0" />
-        <val key="SideNavigationPanel.bgColor" value="ff6400" />
-        <val key="SideNavigationPanel.margin" value="0,0,0,0" />
-        <val key="SideNavigationPanel.padding" value="0,0,0,0" />
+        <val key="SideCommand.textDecoration" value="1" />
+        <val key="SideCommand.transparency" value="255" />
+        <val key="SideMenuTagline.align" value="1" />
+        <val key="SideMenuTagline.bgColor" value="dadbce" />
+        <val key="SideMenuTagline.bgImage" value="background.png" />
+        <val key="SideMenuTagline.bgType" value="1" />
+        <border key="SideMenuTagline.border" type="empty" />
+        <val key="SideMenuTagline.fgColor" value="a7a6aa" />
+        <font key="SideMenuTagline.font" type="ttf" face="0" style="0" size="0" name="native:ItalicBold" family="native:ItalicBold" sizeSettings="3" actualSize="4.0" />
+        <val key="SideMenuTagline.margin" value="0.0,0.0,0.0,0.0" />
+        <val key="SideMenuTagline.padUnit" value="2,2,2,2" />
+        <val key="SideMenuTagline.padding" value="1.0,0.0,0.0,0.0" />
+        <val key="SideMenuTagline.transparency" value="255" />
+        <val key="SideNavigationPanel.bgColor" value="a7a6aa" />
+        <val key="SideNavigationPanel.bgImage" value="background.png" />
+        <val key="SideNavigationPanel.bgType" value="1" />
+        <val key="SideNavigationPanel.fgColor" value="a7a6aa" />
         <val key="SideNavigationPanel.transparency" value="255" />
         <gradient key="Slider.bgGradient" color1="0" color2="0" posX="0.5" posY="0.5" radius="1.0" />
         <val key="Slider.bgType" value="0" />
@@ -724,18 +747,18 @@
         <val key="SliderFull.sel#transparency" value="0" />
         <val key="SliderFull.transparency" value="0" />
         <val key="Tab.bgColor" value="ff7800" />
-        <border key="Tab.border" type="line" thickness="1" color="16777215" />
+        <border key="Tab.border" type="line" millimeters="false" thickness="1.0" color="16777215" />
         <val key="Tab.fgColor" value="ffffff" />
         <font key="Tab.font" type="ttf" face="0" style="0" size="0" name="native:MainRegular" family="native:MainRegular" sizeSettings="3" actualSize="3.0" />
         <val key="Tab.margin" value="0,0,0,0" />
         <val key="Tab.press#bgColor" value="ffffff" />
-        <border key="Tab.press#border" type="line" thickness="1" color="16777215" />
+        <border key="Tab.press#border" type="line" millimeters="false" thickness="1.0" color="16777215" />
         <val key="Tab.press#fgColor" value="0" />
         <font key="Tab.press#font" type="ttf" face="0" style="0" size="0" name="native:MainRegular" family="native:MainRegular" sizeSettings="3" actualSize="3.0" />
         <val key="Tab.press#margin" value="0,0,0,0" />
         <val key="Tab.press#transparency" value="255" />
         <val key="Tab.sel#bgColor" value="ffffff" />
-        <border key="Tab.sel#border" type="line" thickness="1" color="16777215" />
+        <border key="Tab.sel#border" type="line" millimeters="false" thickness="1.0" color="16777215" />
         <val key="Tab.sel#fgColor" value="0" />
         <font key="Tab.sel#font" type="ttf" face="0" style="0" size="0" name="native:MainRegular" family="native:MainRegular" sizeSettings="3" actualSize="3.0" />
         <val key="Tab.sel#margin" value="0,0,0,0" />
@@ -754,14 +777,14 @@
         <val key="TextArea.transparency" value="0" />
         <gradient key="TextField.bgGradient" color1="0" color2="0" posX="0.5" posY="0.5" radius="1.0" />
         <val key="TextField.bgType" value="0" />
-        <border key="TextField.border" type="line" thickness="1" color="10066329" />
+        <border key="TextField.border" type="line" millimeters="false" thickness="1.0" color="10066329" />
         <val key="TextField.fgColor" value="0" />
         <font key="TextField.font" type="ttf" face="0" style="0" size="0" name="native:MainRegular" family="native:MainRegular" sizeSettings="3" actualSize="3.0" />
         <val key="TextField.marUnit" value="2,2,2,2" />
         <val key="TextField.margin" value="1,1,1,1" />
         <gradient key="TextField.press#bgGradient" color1="0" color2="0" posX="0.5" posY="0.5" radius="1.0" />
         <val key="TextField.press#bgType" value="0" />
-        <border key="TextField.press#border" type="line" thickness="1" color="16742400" />
+        <border key="TextField.press#border" type="line" millimeters="false" thickness="1.0" color="16742400" />
         <val key="TextField.press#fgColor" value="0" />
         <font key="TextField.press#font" type="ttf" face="0" style="0" size="0" name="native:MainRegular" family="native:MainRegular" sizeSettings="3" actualSize="3.0" />
         <val key="TextField.press#marUnit" value="2,2,2,2" />
@@ -769,7 +792,7 @@
         <val key="TextField.press#transparency" value="0" />
         <gradient key="TextField.sel#bgGradient" color1="0" color2="0" posX="0.5" posY="0.5" radius="1.0" />
         <val key="TextField.sel#bgType" value="0" />
-        <border key="TextField.sel#border" type="line" thickness="1" color="16742400" />
+        <border key="TextField.sel#border" type="line" millimeters="false" thickness="1.0" color="16742400" />
         <val key="TextField.sel#fgColor" value="0" />
         <font key="TextField.sel#font" type="ttf" face="0" style="0" size="0" name="native:MainRegular" family="native:MainRegular" sizeSettings="3" actualSize="3.0" />
         <val key="TextField.sel#marUnit" value="2,2,2,2" />

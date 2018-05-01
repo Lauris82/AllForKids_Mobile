@@ -183,7 +183,7 @@ public class RegisterForm {
                     String dateN_s = formatter.format(dateN);
                     System.out.println(dateN_s);
         
-                        //////////////////////////////////////////////////////////
+                    //////////////////////////////////////////////////////////
                         
                         
                     Form page2 = new Form("Final Step", BoxLayout.y());

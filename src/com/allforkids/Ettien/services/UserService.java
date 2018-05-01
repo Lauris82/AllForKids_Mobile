@@ -98,6 +98,7 @@ public class UserService {
             us.setEmail(String.valueOf(list.get("email")));
             us.setUsername(String.valueOf(list.get("username")));
             us.setContact(Long.parseLong(list.get("contact").toString()));
+            us.setImage(String.valueOf(list.get("image")));
             
         } else {
             us = null;
@@ -115,7 +116,12 @@ public class UserService {
             byte [] data = (byte[]) evt.getMetaData();
             chaine = new String(data);
         });
+        
+        InfiniteProgress prog = new InfiniteProgress();
+        Dialog dlg = prog.showInifiniteBlocking();
+        con.setDisposeOnCompletion(dlg);
         NetworkManager.getInstance().addToQueueAndWait(con);
+        
         return chaine;
     }
     

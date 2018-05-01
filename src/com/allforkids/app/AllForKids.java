@@ -1,6 +1,7 @@
 package com.allforkids.app;
 
 
+import com.allforkids.Ettien.forms.HomeForm;
 import com.allforkids.Ettien.forms.LoginForm;
 import static com.codename1.ui.CN.*;
 import com.codename1.ui.Form;
@@ -49,6 +50,8 @@ public class AllForKids {
         }
         LoginForm login = new LoginForm(theme);
         login.getForm().show();
+//        HomeForm home = new HomeForm();
+//        home.getF().show();
     }
 
     public void stop() {
