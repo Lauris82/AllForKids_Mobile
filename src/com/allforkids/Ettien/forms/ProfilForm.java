@@ -11,7 +11,6 @@
 package com.allforkids.Ettien.forms;
 
 import com.allforkids.Ettien.entities.User;
-import static com.allforkids.Ettien.forms.SideMenuBarForm.user_Connect;
 import com.allforkids.Ettien.services.UserService;
 import com.codename1.ui.Container;
 import com.codename1.ui.EncodedImage;

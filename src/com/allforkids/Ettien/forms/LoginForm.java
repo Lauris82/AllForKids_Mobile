@@ -102,11 +102,11 @@ public class LoginForm{
         loginButton.addActionListener((ActionListener) (ActionEvent evt) -> {
             uss = new UserService();
             String res = uss.getInfoUser(email.getText(), password.getText());
-            System.out.println(res);
+//            System.out.println(res);
             
             try {
                 user = uss.getUser(res);
-                System.out.println(user);
+//                System.out.println(user);
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
             }

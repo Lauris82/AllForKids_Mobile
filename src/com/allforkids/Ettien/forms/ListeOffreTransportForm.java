@@ -10,27 +10,107 @@
 
 package com.allforkids.Ettien.forms;
 
+import com.allforkids.Ettien.entities.OffreTransport;
+import com.allforkids.Ettien.entities.User;
+import com.allforkids.Ettien.services.OffreTransport_Service;
+import com.allforkids.Ettien.services.UserService;
+import com.codename1.ui.Container;
+import com.codename1.ui.EncodedImage;
+import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
+import com.codename1.ui.Graphics;
+import com.codename1.ui.Image;
+import com.codename1.ui.Label;
 import com.codename1.ui.Toolbar;
+import com.codename1.ui.URLImage;
+import com.codename1.ui.events.ActionEvent;
+import com.codename1.ui.events.ActionListener;
+import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
-
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class ListeOffreTransportForm {
 
     Form f;
     Toolbar toolbar;
+    
+    OffreTransport_Service ots = new OffreTransport_Service();
+    UserService uss = new UserService();
+    ArrayList<OffreTransport> listOffres = new ArrayList<>();
+    
 
     public ListeOffreTransportForm() {
-        
         f = new Form("Liste offre Transport", BoxLayout.y());
-        f.setUIID("LoginForm");
+        f.setUIID("OffreTransport_Background");
         toolbar = f.getToolbar();
+        
+        listOffres = ots.getAllOffers();
+        
+        for(OffreTransport o : listOffres){
+            try {
+                f.add(addOffre(o));
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+        }
 
         
         f.setScrollableY(true);
         f.setScrollVisible(false);
     }
 
+    
+    
+    
+    public final Container addOffre(OffreTransport o) throws IOException{
+        Container c = new Container(BoxLayout.y());
+        c.setUIID("OffreContainer");
+        
+        String result = uss.getInfoUserById(o.getUser());
+        User user = uss.getUser(result);
+        
+        EncodedImage placeholder = EncodedImage.createFromImage(Image.createImage(120, 120), true);
+        URLImage profilPic = URLImage.createToStorage(placeholder, user.getImage(),
+                "http://localhost//AllForKids/web/image_user/"+user.getImage());
+        profilPic.fetch();
+        System.out.println(user.getImage());
+        Container c_img = BorderLayout.centerAbsolute(new Label(setImageCircle(c, profilPic)));
+        Container c_info = BorderLayout.centerAbsolute(new Label("Offre de "+user.getNom()+" "+user.getPrenom()));
+        c.add(c_img);
+        c.add(c_info);
+        
+        Label descriptionL = new Label("Description:");
+        Label description = new Label(o.getDescription());
+        Container c_description = new Container(BoxLayout.x());
+        c_description.addAll(descriptionL, description);
+        Container container_c_descrip = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
+        container_c_descrip.add(BorderLayout.CENTER, c_description);
+        c.add(container_c_descrip);
+        
+        return c;
+    }
+    
+   
+    
+    public Image setImageCircle(Container ca, Image originalImage){
+        int w = originalImage.getWidth();
+        int h = originalImage.getHeight();
+        
+        Image maskImage = Image.createImage(w, h);
+        Graphics g = maskImage.getGraphics();
+        g.setAntiAliased(true);
+        g.setColor(0x000000);
+        g.fillRect(0, 0, w, h);
+        g.setColor(0xdadbce);
+        g.fillArc(0, 0, w, h, 0, 360);
+        
+        Object mask = maskImage.createMask();
+        
+        Image maskedImage = originalImage.applyMask(mask);
+        
+        return maskedImage;
+    }
     
     public Form getF() {
         return f;

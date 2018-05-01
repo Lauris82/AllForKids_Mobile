@@ -54,7 +54,7 @@ public class UserService {
                 user.setNom(obj.get("nom").toString());
                 user.setPrenom(obj.get("prenom").toString());
                 user.setAdresse(obj.get("adresse").toString());
-                System.out.println(user);
+//                System.out.println(user);
                 listUsers.add(user);
             }
 
@@ -89,8 +89,8 @@ public class UserService {
        
         if (list != null) {
             for (Map.Entry mapentry : list.entrySet()) {
-                System.out.println("clé: " + mapentry.getKey()
-                        + " | valeur: " + mapentry.getValue());
+//                System.out.println("clé: " + mapentry.getKey()
+//                        + " | valeur: " + mapentry.getValue());
             }
             us.setId(Integer.parseInt(list.get("id").toString()));
             us.setNom(String.valueOf(list.get("nom")));
@@ -129,6 +129,23 @@ public class UserService {
     public String getInfoUserByEmail(String email){ 
         ConnectionRequest con = new ConnectionRequest();
         con.setUrl("http://localhost/codename/AllForKids/selectUserByEmail.php?email="+email);  
+        con.addResponseListener((NetworkEvent evt) -> {
+            byte [] data = (byte[]) evt.getMetaData();
+            chaine = new String(data);
+        });
+        
+        InfiniteProgress prog = new InfiniteProgress();
+        Dialog dlg = prog.showInifiniteBlocking();
+        con.setDisposeOnCompletion(dlg);
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        
+        return chaine;
+    }
+    
+    
+    public String getInfoUserById(int id){ 
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/codename/AllForKids/selectUserById.php?id="+id);  
         con.addResponseListener((NetworkEvent evt) -> {
             byte [] data = (byte[]) evt.getMetaData();
             chaine = new String(data);
