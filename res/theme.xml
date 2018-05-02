@@ -524,6 +524,12 @@
         <val key="Form.transparency" value="255" />
         <val key="ImageViewer.margin" value="0.0,0.0,0.0,0.0" />
         <val key="ImageViewer.padding" value="0.0,0.0,0.0,0.0" />
+        <val key="Info_Font.bgColor" value="bb43f2" />
+        <val key="Info_Font.bgImage" value="background.png" />
+        <val key="Info_Font.bgType" value="1" />
+        <val key="Info_Font.fgColor" value="bb43f2" />
+        <font key="Info_Font.font" type="ttf" face="0" style="0" size="0" name="native:MainLight" family="native:MainLight" sizeSettings="3" actualSize="4.0" />
+        <val key="Info_Font.textDecoration" value="0" />
         <val key="Label.fgColor" value="0" />
         <font key="Label.font" type="ttf" face="0" style="0" size="0" name="native:MainRegular" family="native:MainRegular" sizeSettings="3" actualSize="3.0" />
         <border key="Label.press#border" type="empty" />

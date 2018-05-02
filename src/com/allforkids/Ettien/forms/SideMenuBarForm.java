@@ -13,11 +13,11 @@ package com.allforkids.Ettien.forms;
 import com.allforkids.Ettien.entities.User;
 import com.allforkids.Ettien.services.FacebookService;
 import com.allforkids.Ettien.services.UserService;
+import com.allforkids.yassine.gui.listEvenement;
 import com.codename1.facebook.FaceBookAccess;
 import com.codename1.io.Storage;
 import com.codename1.ui.Container;
 import com.codename1.ui.EncodedImage;
-import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.Image;
@@ -120,7 +120,12 @@ public final class SideMenuBarForm{
         
         
         f.getToolbar().addCommandToSideMenu("Evènements", theme.getImage("event.png"), (ActionListener) (ActionEvent evt) -> {
-            
+            try {
+                listEvenement lEt = new listEvenement();
+                lEt.getF().show();
+            } catch (IOException ex) {
+                System.out.println("Erreur Mbn");
+            }
             
         });
         

@@ -4,10 +4,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Lauris/Desktop/3A18/CodenameOne/PI/AllForKids_Mobile/src/com/allforkids/Ettien/services/UserService.java</file>
-            <file>file:/C:/Users/Lauris/Desktop/3A18/CodenameOne/PI/AllForKids_Mobile/src/com/allforkids/Ettien/services/OffreTransport_Service.java</file>
-            <file>file:/C:/Users/Lauris/Desktop/3A18/CodenameOne/PI/AllForKids_Mobile/src/com/allforkids/Ettien/entities/User.java</file>
-            <file>file:/C:/Users/Lauris/Desktop/3A18/CodenameOne/PI/AllForKids_Mobile/src/com/allforkids/Ettien/entities/OffreTransport.java</file>
+            <file>file:/C:/Users/Lauris/Desktop/3A18/CodenameOne/PI/AllForKids_Mobile/src/com/allforkids/Ettien/forms/LoginForm.java</file>
+            <file>file:/C:/Users/Lauris/Desktop/3A18/CodenameOne/PI/AllForKids_Mobile/src/com/allforkids/yassine/gui/creerEvenement.java</file>
+            <file>file:/C:/Users/Lauris/Desktop/3A18/CodenameOne/PI/AllForKids_Mobile/src/com/allforkids/yassine/gui/listEvenement.java</file>
+            <file>file:/C:/Users/Lauris/Desktop/3A18/CodenameOne/PI/AllForKids_Mobile/src/com/allforkids/Ettien/forms/SideMenuBarForm.java</file>
+            <file>file:/C:/Users/Lauris/Desktop/3A18/CodenameOne/PI/AllForKids_Mobile/src/com/allforkids/yassine/gui/modifierEvenement.java</file>
+            <file>file:/C:/Users/Lauris/Desktop/3A18/CodenameOne/PI/AllForKids_Mobile/src/com/allforkids/yassine/gui/detailEvenement.java</file>
         </group>
     </open-files>
 </project-private>
