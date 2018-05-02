@@ -17,7 +17,7 @@ public class Reservation_Offre {
     private Integer id;
     private Integer user;
     private Integer nombreEnfants;
-    private Date date_reservation;
+    private String date_reservation;
     private Integer offreTransport;
     private Integer etat;
 
@@ -47,11 +47,11 @@ public class Reservation_Offre {
         this.nombreEnfants = nombreEnfants;
     }
 
-    public Date getDate_reservation() {
+    public String getDate_reservation() {
         return date_reservation;
     }
 
-    public void setDate_reservation(Date date_reservation) {
+    public void setDate_reservation(String date_reservation) {
         this.date_reservation = date_reservation;
     }
 

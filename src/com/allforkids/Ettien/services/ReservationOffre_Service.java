@@ -26,7 +26,6 @@ import java.util.Map;
 
 public class ReservationOffre_Service {
     
-    Reservation_Offre res_Offre = new Reservation_Offre();
     String chaine = new String();
     ArrayList<Reservation_Offre> listTasks = new ArrayList<>();
     
@@ -43,23 +42,14 @@ public class ReservationOffre_Service {
             List<Map<String, Object>> list = (List<Map<String, Object>>) res_O.get("ReservationO");
 
             for (Map<String, Object> obj : list) {
-                // System.out.println(obj.get("id"));
-                float id = Float.parseFloat(obj.get("id").toString());
-                System.out.println(id);
-                res_Offre.setId((int) id);
+                Reservation_Offre res_Offre = new Reservation_Offre();
                 
-                float idU = Float.parseFloat(obj.get("user").toString());
-                res_Offre.setUser((int) idU);
-                
-                float idNE = Float.parseFloat(obj.get("nombreEnfants").toString());
-                res_Offre.setUser((int) idNE);
-                
-                res_Offre.setDate_reservation((java.util.Date) obj.get("date_reservation"));
-                
-                float offre = Float.parseFloat(obj.get("offreTransport").toString());
-                res_Offre.setOffreTransport((int) offre);
-                float place_R = Float.parseFloat(obj.get("etat").toString());
-                res_Offre.setEtat((int) place_R);
+                res_Offre.setId(Integer.parseInt(obj.get("id").toString()));
+                res_Offre.setUser(Integer.parseInt(obj.get("user").toString()));
+                res_Offre.setNombreEnfants(Integer.parseInt(obj.get("nombreEnfants").toString()));
+                res_Offre.setDate_reservation(obj.get("date_reservation").toString());
+                res_Offre.setOffreTransport(Integer.parseInt(obj.get("offreTransport").toString()));
+                res_Offre.setEtat(Integer.parseInt(obj.get("etat").toString()));
                 
                 System.out.println(res_Offre);
                 listRes.add(res_Offre);
@@ -71,9 +61,9 @@ public class ReservationOffre_Service {
     }
 
     
-    public ArrayList<Reservation_Offre> getAllOffers(){       
+    public ArrayList<Reservation_Offre> getMyReservations(int id){       
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/codename/AllForKids/ListReservationOffre.php");  
+        con.setUrl("http://localhost/codename/AllForKids/ListReservationOffre.php?user="+id);  
         con.addResponseListener((NetworkEvent evt) -> {
             ReservationOffre_Service rots = new ReservationOffre_Service();
             listTasks = rots.getListTask(new String(con.getResponseData()));

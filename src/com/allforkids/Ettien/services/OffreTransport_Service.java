@@ -11,13 +11,11 @@
 package com.allforkids.Ettien.services;
 
 import com.allforkids.Ettien.entities.OffreTransport;
-import com.codename1.components.InfiniteProgress;
 import com.codename1.io.CharArrayReader;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
-import com.codename1.ui.Dialog;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,21 +87,15 @@ public class OffreTransport_Service {
                 System.out.println("clé: " + mapentry.getKey()
                         + " | valeur: " + mapentry.getValue());
             }
-            float idU = Float.parseFloat(list.get("user").toString());
-            offre.setUser((int) idU);
-
+            offre.setId(Integer.parseInt(list.get("id").toString()));
+            offre.setUser(Integer.parseInt(list.get("user").toString()));
             offre.setDescription(list.get("description").toString());
             offre.setDestination(list.get("destination").toString());
             offre.setDate_debut(list.get("date_debut").toString());
             offre.setDate_fin(list.get("date_fin").toString());
-
-            float place = Float.parseFloat(list.get("nombre_place").toString());
-            offre.setNombre_place((int) place);
-            float place_R = Float.parseFloat(list.get("place_restant").toString());
-            offre.setPlace_restant((int) place_R);
-
-            float prix = Float.parseFloat(list.get("prix").toString());
-            offre.setPrix((double) prix);
+            offre.setNombre_place(Integer.parseInt(list.get("nombre_place").toString()));
+            offre.setPlace_restant(Integer.parseInt(list.get("place_restant").toString()));
+            offre.setPrix(Double.parseDouble(list.get("prix").toString()));
 
             System.out.println(offre);
         } else {
@@ -113,22 +105,6 @@ public class OffreTransport_Service {
         return offre;
     }
     
-    
-    public String getInfoUserByEmail(String email){ 
-        ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/codename/AllForKids/selectUserByEmail.php?email="+email);  
-        con.addResponseListener((NetworkEvent evt) -> {
-            byte [] data = (byte[]) evt.getMetaData();
-            chaine = new String(data);
-        });
-        
-        InfiniteProgress prog = new InfiniteProgress();
-        Dialog dlg = prog.showInifiniteBlocking();
-        con.setDisposeOnCompletion(dlg);
-        NetworkManager.getInstance().addToQueueAndWait(con);
-        
-        return chaine;
-    }
 
 }
 

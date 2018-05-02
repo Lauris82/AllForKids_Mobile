@@ -129,18 +129,18 @@ public class LoginForm{
         
         facebookButton.addActionListener((ActionListener) (ActionEvent evt) -> {
             FacebookService fb_service = new FacebookService();
-            is_connect = fb_service.loginWithFacebook();
+            fb_service.loginWithFacebook();
         });
-        if(is_connect == true){
-            HomeForm home = new HomeForm();
-            home.getF().show();
-        }
         
         forget_password.addPointerPressedListener((ActionListener) (ActionEvent evt) -> {
             ForgetPasswordForm fpf = new ForgetPasswordForm();
             fpf.getF().show();
         });
         
+        if(is_connect == true){
+            HomeForm home = new HomeForm();
+            home.getF().show();
+        }
     }
 
     public LoginForm() {}

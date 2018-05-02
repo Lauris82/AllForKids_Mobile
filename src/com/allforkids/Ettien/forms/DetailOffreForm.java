@@ -1,8 +1,8 @@
 /**
 * @Project: AllForKids_Mobile
-* @Classe: ListeOffreTransportForm
-* @Date: 26 avr. 2018
-* @Time: 09:31:52
+* @Classe: DetailOffreForm
+* @Date: 1 mai 2018
+* @Time: 23:10:14
 *
 * @author Lauris
 */
@@ -12,86 +12,54 @@ package com.allforkids.Ettien.forms;
 
 import com.allforkids.Ettien.entities.OffreTransport;
 import com.allforkids.Ettien.entities.User;
-import com.allforkids.Ettien.services.OffreTransport_Service;
 import com.allforkids.Ettien.services.UserService;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.EncodedImage;
-import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
-import com.codename1.ui.Toolbar;
 import com.codename1.ui.URLImage;
-import com.codename1.ui.events.ActionEvent;
-import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
-import java.io.IOException;
-import java.util.ArrayList;
 
-public class ListeOffreTransportForm {
 
+public class DetailOffreForm {
+    
     Form f;
-    Toolbar toolbar;
-    Image default_Img = null;
-    
-    OffreTransport_Service ots = new OffreTransport_Service();
+    public OffreTransport offre_selected;
+    public User user;
     UserService uss = new UserService();
-    ArrayList<OffreTransport> listOffres = new ArrayList<>();
-    public static OffreTransport offre_selected;
-    public static User offre_selected_user;
+    Image default_Img = null;
 
-    public ListeOffreTransportForm() {
-        f = new Form("Liste offre Transport", BoxLayout.y());
+    public DetailOffreForm(){
+        
+        f = new Form("Detail d'offre", BoxLayout.y());
         f.setUIID("OffreTransport_Background");
-        toolbar = f.getToolbar();
         
-        listOffres = ots.getAllOffers();
+        ListeOffreTransportForm listForm = new ListeOffreTransportForm();
+        offre_selected = listForm.getOffre_selected();
+        user = listForm.getOffre_selected_user();
+        System.out.println(offre_selected);
+        System.out.println(user);
         
-        for(OffreTransport o : listOffres){
-            try {
-                f.add(addOffre(o));
-            } catch (IOException ex) {
-                System.err.println(ex.getMessage());
-            }
-        }
-
-        
-        f.setScrollableY(true);
-        f.setScrollVisible(false);
-        
-        f.getToolbar().addCommandToLeftBar("Back", default_Img, e -> {
-            HomeForm home = new HomeForm();
-            home.getF().showBack();
-        });
-    }
-
-    
-    
-    
-    public final Container addOffre(OffreTransport o) throws IOException{
         Container c = new Container(BoxLayout.y());
         c.setUIID("OffreContainer");
         
-        String result = uss.getInfoUserById(o.getUser());
-        User user = uss.getUser(result);
         
         EncodedImage placeholder = EncodedImage.createFromImage(Image.createImage(120, 120), true);
         URLImage profilPic = URLImage.createToStorage(placeholder, user.getImage(),
                 "http://localhost//AllForKids/web/image_user/"+user.getImage());
         profilPic.fetch();
+        System.out.println(user.getImage());
         Container c_img = BorderLayout.centerAbsolute(new Label(setImageCircle(c, profilPic)));
         Container c_info = BorderLayout.centerAbsolute(new Label("Offre de "+user.getNom()+" "+user.getPrenom()));
         c.add(c_img);
         c.add(c_info);
         
-        Label hide =new Label("  ");
-        c.add(hide);
-        
         Label descriptionL = new Label("Description:");
-        Label description = new Label(o.getDescription(), "OffreFont");
+        Label description = new Label(offre_selected.getDescription(), "OffreFont");
         Container c_description = new Container(BoxLayout.x());
         c_description.addAll(descriptionL, description);
         Container container_c_descrip = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
@@ -99,7 +67,7 @@ public class ListeOffreTransportForm {
         c.add(container_c_descrip);
         
         Label destinationL = new Label("Destination:");
-        Label destination = new Label(o.getDestination(), "OffreFont");
+        Label destination = new Label(offre_selected.getDestination(), "OffreFont");
         Container c_destination = new Container(BoxLayout.x());
         c_destination.addAll(destinationL, destination);
         Container container_c_desti = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
@@ -107,39 +75,60 @@ public class ListeOffreTransportForm {
         c.add(container_c_desti);
         
         Label dateDL = new Label("Date debut:");
-        Label dateD = new Label(o.getDate_debut(), "OffreFont");
+        Label dateD = new Label(offre_selected.getDate_debut(), "OffreFont");
         Container c_dateD = new Container(BoxLayout.x());
         c_dateD.addAll(dateDL, dateD);
         Container container_c_datD = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
         container_c_datD.add(BorderLayout.CENTER, c_dateD);
         c.add(container_c_datD);
+        
+        Label dateFL = new Label("Date fin:");
+        Label dateF = new Label(offre_selected.getDate_fin(), "OffreFont");
+        Container c_dateF = new Container(BoxLayout.x());
+        c_dateF.addAll(dateFL, dateF);
+        Container container_c_datF = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
+        container_c_datF.add(BorderLayout.CENTER, c_dateF);
+        c.add(container_c_datF);
+        
+        Label placeL = new Label("Place Restant:");
+        Label place = new Label(offre_selected.getPlace_restant().toString(), "OffreFont");
+        Container c_place = new Container(BoxLayout.x());
+        c_place.addAll(placeL, place);
+        Container container_c_place = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
+        container_c_place.add(BorderLayout.CENTER, c_place);
+        c.add(container_c_place);
+        
+        Label prixL = new Label("Prix:");
+        Label prix = new Label(offre_selected.getPrix().toString(), "OffreFont");
+        Container c_prix = new Container(BoxLayout.x());
+        c_prix.addAll(prixL, prix);
+        Container container_c_prix = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
+        container_c_prix.add(BorderLayout.CENTER, c_prix);
+        c.add(container_c_prix);
 
         
-        Label detail = new Label("", "TextField");
-        detail.getAllStyles().setFgColor(0xf5bf0a);
-        FontImage.setMaterialIcon(detail, FontImage.MATERIAL_DETAILS, 3);
-        Button showDetailButton =new Button("Details");
-        showDetailButton.setUIID("RegisterButton");
-        showDetailButton.getAllStyles().setFgColor(0xffffff);
+        Button reserverButton = new Button("Resever une place");
+        reserverButton.setUIID("LoginButton");
+        reserverButton.getAllStyles().setFgColor(0xffffff);
         
-        Container c_fcb_Button = new Container(BoxLayout.x());
-        c_fcb_Button.addAll(detail, showDetailButton);
-        Container container_fcb = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
-        container_fcb.add(BorderLayout.CENTER, c_fcb_Button);
-        c.add(container_fcb);
         
-        showDetailButton.addActionListener((ActionListener) (ActionEvent evt) -> {
-            setOffre_selected(o);
-            setOffre_selected_user(user);
-            DetailOffreForm detailOffre = new DetailOffreForm();
-            detailOffre.getF().show();
+        Container c_Button = new Container(BoxLayout.x());
+        c_Button.addAll(reserverButton);
+        Container container = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
+        container.add(BorderLayout.CENTER, c_Button);
+        c.add(container);
+        
+        f.add(c);
+        f.getToolbar().addCommandToLeftBar("Back", default_Img, e -> {
+            ListeOffreTransportForm listO = new ListeOffreTransportForm();
+            listO.getF().showBack();
         });
-        
-        return c;
     }
     
+    
    
-    public Image setImageCircle(Container ca, Image originalImage){
+    
+    public final Image setImageCircle(Container ca, Image originalImage){
         int w = originalImage.getWidth();
         int h = originalImage.getHeight();
         
@@ -157,7 +146,7 @@ public class ListeOffreTransportForm {
         
         return maskedImage;
     }
-    
+
     public Form getF() {
         return f;
     }
@@ -166,30 +155,14 @@ public class ListeOffreTransportForm {
         this.f = f;
     }
 
-    public Toolbar getToolbar() {
-        return toolbar;
-    }
-
-    public void setToolbar(Toolbar toolbar) {
-        this.toolbar = toolbar;
-    }
-
     public OffreTransport getOffre_selected() {
         return offre_selected;
     }
 
     public void setOffre_selected(OffreTransport offre_selected) {
-        ListeOffreTransportForm.offre_selected = offre_selected;
+        this.offre_selected = offre_selected;
     }
-
-    public User getOffre_selected_user() {
-        return offre_selected_user;
-    }
-
-    public void setOffre_selected_user(User offre_selected_user) {
-        ListeOffreTransportForm.offre_selected_user = offre_selected_user;
-    }
-
+    
 }
 
 
