@@ -14,6 +14,7 @@ import com.codename1.ui.Form;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
+import com.codename1.ui.Toolbar;
 import com.codename1.ui.URLImage;
 import com.codename1.ui.layouts.BoxLayout;
 import java.io.IOException;
@@ -30,6 +31,9 @@ Image img ;
     public membreEvenement(evenement e, int ide,int p) throws IOException {
         
         f=new Form("Membres èvenement");
+        f.setUIID("LoginForm");
+        Toolbar tb = f.getToolbar();
+        tb.setUIID("ToolBarFont");
         Container c=new Container(BoxLayout.y());
         serviceReservation r=new serviceReservation();
      nbrR  = r.nbrReservation(ide);

@@ -19,6 +19,7 @@ import com.codename1.ui.Dialog;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
 import com.codename1.ui.TextField;
+import com.codename1.ui.Toolbar;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
@@ -46,6 +47,8 @@ public final class ForgetPasswordForm {
         
         f = new Form("Recuperer Mot de Passe", BoxLayout.y());
         f.setUIID("LoginForm");
+        Toolbar tb = f.getToolbar();
+        tb.setUIID("ToolBarFont");
         
         email = new TextField("", "Adresse mail", 20, TextField.EMAILADDR);
         Button verifEmail_Button = new Button("Verifier email");

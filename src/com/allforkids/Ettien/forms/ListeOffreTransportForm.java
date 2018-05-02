@@ -47,6 +47,7 @@ public class ListeOffreTransportForm {
         f = new Form("Liste offre Transport", BoxLayout.y());
         f.setUIID("OffreTransport_Background");
         toolbar = f.getToolbar();
+        toolbar.setUIID("ToolBarFont");
         
         listOffres = ots.getAllOffers();
         
@@ -58,7 +59,6 @@ public class ListeOffreTransportForm {
             }
         }
 
-        
         f.setScrollableY(true);
         f.setScrollVisible(false);
         
@@ -66,9 +66,14 @@ public class ListeOffreTransportForm {
             HomeForm home = new HomeForm();
             home.getF().showBack();
         });
+        
+        f.getToolbar().addCommandToOverflowMenu("Ms reservations", default_Img, ev -> {
+            ListeReservation listRes = new ListeReservation();
+            listRes.getF().show();
+        });
     }
 
-    
+    public ListeOffreTransportForm(String sms) {}
     
     
     public final Container addOffre(OffreTransport o) throws IOException{
@@ -118,7 +123,7 @@ public class ListeOffreTransportForm {
         Label detail = new Label("", "TextField");
         detail.getAllStyles().setFgColor(0xf5bf0a);
         FontImage.setMaterialIcon(detail, FontImage.MATERIAL_DETAILS, 3);
-        Button showDetailButton =new Button("Details");
+        Button showDetailButton =new Button("Annuler Reservation");
         showDetailButton.setUIID("RegisterButton");
         showDetailButton.getAllStyles().setFgColor(0xffffff);
         
@@ -129,10 +134,7 @@ public class ListeOffreTransportForm {
         c.add(container_fcb);
         
         showDetailButton.addActionListener((ActionListener) (ActionEvent evt) -> {
-            setOffre_selected(o);
-            setOffre_selected_user(user);
-            DetailOffreForm detailOffre = new DetailOffreForm();
-            detailOffre.getF().show();
+            
         });
         
         return c;

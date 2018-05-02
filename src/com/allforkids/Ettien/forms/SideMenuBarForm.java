@@ -13,6 +13,8 @@ package com.allforkids.Ettien.forms;
 import com.allforkids.Ettien.entities.User;
 import com.allforkids.Ettien.services.FacebookService;
 import com.allforkids.Ettien.services.UserService;
+import com.allforkids.yasmine.gui.homeAss;
+import com.allforkids.yasmine.gui.homeClub;
 import com.allforkids.yassine.gui.listEvenement;
 import com.codename1.facebook.FaceBookAccess;
 import com.codename1.io.Storage;
@@ -113,9 +115,15 @@ public final class SideMenuBarForm{
         });
         
         
-        f.getToolbar().addCommandToSideMenu("Club et Association", theme.getImage("meeting.png"), (ActionListener) (ActionEvent evt) -> {
-            
-            
+        f.getToolbar().addCommandToSideMenu("Clubs", theme.getImage("club.png"), (ActionListener) (ActionEvent evt) -> {
+            homeClub hc = new homeClub();
+            hc.getF().show();
+        });
+        
+        
+        f.getToolbar().addCommandToSideMenu("Associations", theme.getImage("meeting.png"), (ActionListener) (ActionEvent evt) -> {
+            homeAss ha = new homeAss();
+            ha.getF().show();
         });
         
         

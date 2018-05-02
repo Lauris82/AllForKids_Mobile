@@ -29,6 +29,7 @@ import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.TextField;
+import com.codename1.ui.Toolbar;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
@@ -71,6 +72,8 @@ public class RegisterForm {
         theme = UIManager.initFirstTheme("/theme");
         f = new Form("Register on AllForKids", BoxLayout.y());
         f.setUIID("RegisterForm");
+        Toolbar tb = f.getToolbar();
+        tb.setUIID("ToolBarFont");
         
         email = new TextField("", "Adresse mail", 20, TextField.EMAILADDR);
         Label emailIcon = new Label("", "TextField");

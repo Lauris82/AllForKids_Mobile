@@ -21,6 +21,7 @@ import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.Slider;
 import com.codename1.ui.TextField;
+import com.codename1.ui.Toolbar;
 import com.codename1.ui.URLImage;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
@@ -49,6 +50,9 @@ public class modifierEvenement {
          
         try {
             f = new Form("Modifier evenement");
+            f.setUIID("LoginForm");
+            Toolbar tb = f.getToolbar();
+            tb.setUIID("ToolBarFont");
             Container c=new Container(BoxLayout.y());
             TextField nom = new TextField("","Nom");
             TextField desc = new TextField("","Description");

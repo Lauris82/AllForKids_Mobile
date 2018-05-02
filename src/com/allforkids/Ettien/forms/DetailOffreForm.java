@@ -20,6 +20,7 @@ import com.codename1.ui.Form;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
+import com.codename1.ui.Toolbar;
 import com.codename1.ui.URLImage;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
@@ -37,6 +38,8 @@ public class DetailOffreForm {
         
         f = new Form("Detail d'offre", BoxLayout.y());
         f.setUIID("OffreTransport_Background");
+        Toolbar tb = f.getToolbar();
+        tb.setUIID("ToolBarFont");
         
         ListeOffreTransportForm listForm = new ListeOffreTransportForm();
         offre_selected = listForm.getOffre_selected();

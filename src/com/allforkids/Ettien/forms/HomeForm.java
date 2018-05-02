@@ -17,6 +17,7 @@ import com.codename1.ui.Container;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
+import com.codename1.ui.Toolbar;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
@@ -34,6 +35,8 @@ public class HomeForm{
         
         f = new Form("AllForkids", BoxLayout.y());
         f.setUIID("LoginForm");
+        Toolbar tb = f.getToolbar();
+        tb.setUIID("ToolBarFont");
 
         SideMenuBarForm side_bar = new SideMenuBarForm(f);
         

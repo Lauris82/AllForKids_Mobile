@@ -19,6 +19,7 @@ import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
+import com.codename1.ui.Toolbar;
 import com.codename1.ui.URLImage;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
@@ -43,10 +44,13 @@ public class detailEvenement {
        ev=e;
          serviceReservation ser=new serviceReservation();
         f=new Form("Dètail evenement");
+        f.setUIID("LoginForm");
+        Toolbar tb = f.getToolbar();
+        tb.setUIID("ToolBarFont");
                     Container c =new Container(BoxLayout.y());
         try {
             
-            Label l2=new Label(e.getNom());
+            Label l2=new Label("     "+e.getNom());
              l2.getAllStyles().setFgColor(0xFF0000);
              
             EncodedImage  enc = EncodedImage.create("/giphy.gif");

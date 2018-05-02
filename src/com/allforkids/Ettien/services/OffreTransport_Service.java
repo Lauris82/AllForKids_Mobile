@@ -105,6 +105,20 @@ public class OffreTransport_Service {
         return offre;
     }
     
+    
+    
+    public String getOffreById(int id){ 
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/codename/AllForKids/selectOffreById.php?id="+id);  
+        con.addResponseListener((NetworkEvent evt) -> {
+            byte [] data = (byte[]) evt.getMetaData();
+            chaine = new String(data);
+        });
+        
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        
+        return chaine;
+    }
 
 }
 

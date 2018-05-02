@@ -50,6 +50,7 @@
     <image name="chboxv1.png" type="multi"  />
     <image name="chboxv1.png1" type="multi"  />
     <image name="chboxv1.png2" type="multi"  />
+    <image name="club.png"  />
     <image name="ComboBox.borderBottom_1.png" type="multi"  />
     <image name="ComboBox.borderBottom_1.png1" type="multi"  />
     <image name="ComboBox.borderBottom_1.png2" type="multi"  />
@@ -735,11 +736,11 @@
         <val key="RegisterForm.bgImage" value="background.png" />
         <val key="RegisterForm.bgType" value="1" />
         <val key="SideCommand.align" value="1" />
-        <val key="SideCommand.bgColor" value="dadbce" />
+        <val key="SideCommand.bgColor" value="e33b86" />
         <val key="SideCommand.bgImage" value="background.png" />
         <val key="SideCommand.bgType" value="1" />
         <border key="SideCommand.border" type="empty" />
-        <val key="SideCommand.fgColor" value="a7a6aa" />
+        <val key="SideCommand.fgColor" value="e33b86" />
         <font key="SideCommand.font" type="ttf" face="0" style="0" size="0" name="native:MainLight" family="native:MainLight" sizeSettings="1" actualSize="12.0" />
         <val key="SideCommand.margin" value="0.0,1.0,0.0,0.0" />
         <val key="SideCommand.padUnit" value="2,2,2,2" />
@@ -773,12 +774,12 @@
         <val key="SideCommand.textDecoration" value="1" />
         <val key="SideCommand.transparency" value="255" />
         <val key="SideMenuTagline.align" value="1" />
-        <val key="SideMenuTagline.bgColor" value="dadbce" />
+        <val key="SideMenuTagline.bgColor" value="e33b86" />
         <val key="SideMenuTagline.bgImage" value="background.png" />
         <val key="SideMenuTagline.bgType" value="1" />
         <border key="SideMenuTagline.border" type="empty" />
-        <val key="SideMenuTagline.fgColor" value="a7a6aa" />
-        <font key="SideMenuTagline.font" type="ttf" face="0" style="0" size="0" name="native:ItalicBold" family="native:ItalicBold" sizeSettings="3" actualSize="4.0" />
+        <val key="SideMenuTagline.fgColor" value="e33b86" />
+        <font key="SideMenuTagline.font" type="ttf" face="0" style="0" size="0" name="native:ItalicBold" family="native:ItalicBold" sizeSettings="3" actualSize="3.5" />
         <val key="SideMenuTagline.margin" value="0.0,0.0,0.0,0.0" />
         <val key="SideMenuTagline.padUnit" value="2,2,2,2" />
         <val key="SideMenuTagline.padding" value="1.0,0.0,0.0,0.0" />
@@ -924,6 +925,11 @@
         <val key="TitleCommand.transparency" value="0" />
         <val key="ToastBarMessage.fgColor" value="ffffff" />
         <font key="ToastBarMessage.font" type="ttf" face="0" style="0" size="0" name="native:MainThin" family="native:MainThin" sizeSettings="3" actualSize="3.0" />
+        <val key="ToolBarFont.bgColor" value="ffffff" />
+        <val key="ToolBarFont.bgImage" value="toolbar.png" />
+        <val key="ToolBarFont.bgType" value="1" />
+        <val key="ToolBarFont.fgColor" value="ffffff" />
+        <font key="ToolBarFont.font" type="ttf" face="0" style="0" size="0" name="native:MainBold" family="native:MainBold" sizeSettings="3" actualSize="4.0" />
         <val key="bgColor" value="ffffff" />
         <border key="border" type="empty" />
         <val key="fgColor" value="0" />
@@ -959,5 +965,6 @@
     <image name="TitleArea.borderTopR_3.png" type="multi"  />
     <image name="TitleArea.borderTopR_3.png1" type="multi"  />
     <image name="TitleArea.borderTopR_3.png2" type="multi"  />
+    <image name="toolbar.png"  />
     <image name="transport.jpg"  />
 </resource>
