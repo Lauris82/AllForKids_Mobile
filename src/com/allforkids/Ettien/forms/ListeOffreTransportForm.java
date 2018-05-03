@@ -42,12 +42,16 @@ public class ListeOffreTransportForm {
     ArrayList<OffreTransport> listOffres = new ArrayList<>();
     public static OffreTransport offre_selected;
     public static User offre_selected_user;
+    public User user_Connected;
+    LoginForm log = new LoginForm();
 
     public ListeOffreTransportForm() {
         f = new Form("Liste offre Transport", BoxLayout.y());
         f.setUIID("OffreTransport_Background");
         toolbar = f.getToolbar();
         toolbar.setUIID("ToolBarFont");
+        
+        user_Connected = log.getUser();
         
         listOffres = ots.getAllOffers();
         
@@ -123,7 +127,10 @@ public class ListeOffreTransportForm {
         Label detail = new Label("", "TextField");
         detail.getAllStyles().setFgColor(0xf5bf0a);
         FontImage.setMaterialIcon(detail, FontImage.MATERIAL_DETAILS, 3);
-        Button showDetailButton =new Button("Annuler Reservation");
+        Button showDetailButton =new Button("Details");
+        if(user_Connected.getId() == o.getUser()){
+            showDetailButton.setText("Ceci est votre offre");
+        }
         showDetailButton.setUIID("RegisterButton");
         showDetailButton.getAllStyles().setFgColor(0xffffff);
         
@@ -133,8 +140,12 @@ public class ListeOffreTransportForm {
         container_fcb.add(BorderLayout.CENTER, c_fcb_Button);
         c.add(container_fcb);
         
+        
         showDetailButton.addActionListener((ActionListener) (ActionEvent evt) -> {
-            
+            setOffre_selected(o);
+            setOffre_selected_user(user);
+            DetailOffreForm detailOffre = new DetailOffreForm();
+            detailOffre.getF().show();
         });
         
         return c;

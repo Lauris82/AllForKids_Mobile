@@ -13,6 +13,7 @@ package com.allforkids.Ettien.forms;
 import com.allforkids.Ettien.entities.User;
 import com.allforkids.Ettien.services.FacebookService;
 import com.allforkids.Ettien.services.UserService;
+import com.allforkids.raoudha.gui.Home;
 import com.allforkids.yasmine.gui.homeAss;
 import com.allforkids.yasmine.gui.homeClub;
 import com.allforkids.yassine.gui.listEvenement;
@@ -110,7 +111,8 @@ public final class SideMenuBarForm{
         
         
         f.getToolbar().addCommandToSideMenu("Garderie", theme.getImage("garderie.png"), (ActionListener) (ActionEvent evt) -> {
-            
+            Home hm = new Home();
+            hm.getF().show();
             
         });
         
@@ -148,7 +150,8 @@ public final class SideMenuBarForm{
         
         
         f.getToolbar().addCommandToSideMenu("Produits", theme.getImage("brick.png"), (ActionListener) (ActionEvent evt) -> {
-           
+           com.mycompany.myapp.HomeForm hm = new com.mycompany.myapp.HomeForm();
+           hm.getF().show();
             
         });
     }

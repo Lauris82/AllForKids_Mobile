@@ -22,7 +22,7 @@ public class AllForKids {
 
     public void init(Object context) {
         // use two network threads instead of one
-        updateNetworkThreadCount(2);
+//        updateNetworkThreadCount(2);
 
         theme = UIManager.initFirstTheme("/theme");
 
@@ -32,15 +32,15 @@ public class AllForKids {
         // Pro only feature
         Log.bindCrashProtection(true);
 
-        addNetworkErrorListener(err -> {
-            // prevent the event from propagating
-            err.consume();
-            if(err.getError() != null) {
-                Log.e(err.getError());
-            }
-            Log.sendLogAsync();
-            Dialog.show("Connection Error", "There was a networking error in the connection to " + err.getConnectionRequest().getUrl(), "OK", null);
-        });        
+//        addNetworkErrorListener(err -> {
+//            // prevent the event from propagating
+//            err.consume();
+//            if(err.getError() != null) {
+//                Log.e(err.getError());
+//            }
+//            Log.sendLogAsync();
+//            Dialog.show("Connection Error", "There was a networking error in the connection to " + err.getConnectionRequest().getUrl(), "OK", null);
+//        });        
     }
     
     public void start() {
@@ -55,11 +55,11 @@ public class AllForKids {
     }
 
     public void stop() {
-        current = getCurrentForm();
-        if(current instanceof Dialog) {
-            ((Dialog)current).dispose();
-            current = getCurrentForm();
-        }
+//        current = getCurrentForm();
+//        if(current instanceof Dialog) {
+//            ((Dialog)current).dispose();
+//            current = getCurrentForm();
+//        }
     }
     
     public void destroy() {

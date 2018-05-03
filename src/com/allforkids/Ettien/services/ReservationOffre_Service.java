@@ -26,7 +26,7 @@ import java.util.Map;
 
 public class ReservationOffre_Service {
     
-    String chaine = new String();
+    String chaine;
     ArrayList<Reservation_Offre> listTasks = new ArrayList<>();
     
     
@@ -70,6 +70,18 @@ public class ReservationOffre_Service {
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
         return listTasks;
+    }
+
+    
+    public String reserverOffre(int id){       
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/Allforkids/web/app_dev.php/api/users/all="+id);  
+        con.addResponseListener((NetworkEvent evt) -> {
+            ReservationOffre_Service rots = new ReservationOffre_Service();
+            listTasks = rots.getListTask(new String(con.getResponseData()));
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return chaine;
     }
 
 }

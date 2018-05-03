@@ -120,7 +120,7 @@ public class ListeReservation {
         Label detail = new Label("", "TextField");
         detail.getAllStyles().setFgColor(0xf5bf0a);
         FontImage.setMaterialIcon(detail, FontImage.MATERIAL_DETAILS, 3);
-        Button showDetailButton =new Button("Details");
+        Button showDetailButton =new Button("Annuler Reservation");
         showDetailButton.setUIID("RegisterButton");
         showDetailButton.getAllStyles().setFgColor(0xffffff);
         
@@ -131,10 +131,7 @@ public class ListeReservation {
         c.add(container_fcb);
         
         showDetailButton.addActionListener((ActionListener) (ActionEvent evt) -> {
-            setOffre_selected(offre_selected);
-            setOffre_selected_user(user);
-            DetailOffreForm detailOffre = new DetailOffreForm();
-            detailOffre.getF().show();
+            
         });
         
         return c;

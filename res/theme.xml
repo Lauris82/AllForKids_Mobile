@@ -133,10 +133,13 @@
     <image name="Dialog.borderTopR_1.png" type="multi"  />
     <image name="Dialog.borderTopR_1.png1" type="multi"  />
     <image name="Dialog.borderTopR_1.png2" type="multi"  />
+    <image name="enf1.png"  />
     <image name="event.png"  />
     <image name="fcb_btn_fill.png"  />
     <image name="garderie.png"  />
+    <image name="giphy.gif"  />
     <image name="logo.png"  />
+    <image name="logop.png"  />
     <image name="meeting.png"  />
     <image name="Menu.borderBottom_1.png" type="multi"  />
     <image name="Menu.borderBottom_1.png1" type="multi"  />

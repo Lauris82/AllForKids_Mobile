@@ -89,8 +89,8 @@ public final class ForgetPasswordForm {
             System.out.println(verifCode);
             sms.createSMS(userNum, verifMessage);
             
-        });
             setUpSecondStep();
+        });
     }
     
     
@@ -148,8 +148,8 @@ public final class ForgetPasswordForm {
             System.out.println("ok");
             if(code.getText().equals(verifCode)){
                 System.out.println("Debug");
-                setUpThirdStep();
                 code.setEditable(false);
+                setUpThirdStep();
                 System.out.println("Debug ++");
             }
             
