@@ -132,5 +132,21 @@ public class serviceGarderie
         return  listgarderie;
            } 
            
+           public void supprimer(Garderie g)
+           {
+            ConnectionRequest con = new ConnectionRequest();
+              String Url = "http://localhost/AllForKids/web/app_dev.php/suppGarderieMobile/"+g.getId_garderie();
+                   con.setUrl(Url);
+        con.addResponseListener((e) -> {
+            String str = new String(con.getResponseData());
+            System.out.println(str);
+            System.out.println("suppression effectuée");
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+            
+            
+           }
+           
          
 }

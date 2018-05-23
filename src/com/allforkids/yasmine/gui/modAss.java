@@ -42,6 +42,12 @@ public class modAss {
         desc = new TextField();
         numTel = new TextField();
         gouv = new TextField();
+        
+         nom.setHint("nom");
+        desc.setHint("description");
+        numTel.setHint("Num Tel°");
+        gouv.setHint("gouvernerat");
+        
         btnMod = new Button("Modifier");
 
         nom.setText(ass.getNom());

@@ -11,7 +11,7 @@ import com.codename1.ui.Label;
 import com.codename1.ui.layouts.BoxLayout;
 import com.allforkids.raoudha.Services.serviceGarderie;
 import com.allforkids.raoudha.entities.Garderie;
-import com.codename1.ui.Toolbar;
+import com.allforkids.raoudha.myapp.MyApplication;
 import java.util.ArrayList;
 
 /**
@@ -26,8 +26,6 @@ int i;
     
     {
         f=new Form("Ma Garderie");
-        Toolbar tb = f.getToolbar();
-        tb.setUIID("ToolBarFont");
         serviceGarderie s=new serviceGarderie();
 ArrayList<Garderie> list =s.AffichedetailGard(g);
      Container c=new Container(BoxLayout.y());
@@ -68,7 +66,12 @@ ArrayList<Garderie> list =s.AffichedetailGard(g);
         }
          f.add(c);
    f.getAllStyles().setBgColor(0xFFFACD);
-// f.show();
+ f.show();
+ 
+ f.getToolbar().addCommandToLeftBar("Back", null, e -> {
+     MyApplication hm = new MyApplication();
+     hm.getF().show();
+ });
      
     }
 

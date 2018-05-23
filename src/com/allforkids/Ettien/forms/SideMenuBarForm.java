@@ -13,7 +13,7 @@ package com.allforkids.Ettien.forms;
 import com.allforkids.Ettien.entities.User;
 import com.allforkids.Ettien.services.FacebookService;
 import com.allforkids.Ettien.services.UserService;
-import com.allforkids.raoudha.gui.Home;
+import com.allforkids.raoudha.myapp.MyApplication;
 import com.allforkids.yasmine.gui.homeAss;
 import com.allforkids.yasmine.gui.homeClub;
 import com.allforkids.yassine.gui.listEvenement;
@@ -111,7 +111,7 @@ public final class SideMenuBarForm{
         
         
         f.getToolbar().addCommandToSideMenu("Garderie", theme.getImage("garderie.png"), (ActionListener) (ActionEvent evt) -> {
-            Home hm = new Home();
+            MyApplication hm = new MyApplication();
             hm.getF().show();
             
         });

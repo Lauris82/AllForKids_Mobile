@@ -6,9 +6,11 @@
 package com.allforkids.raoudha.gui;
 
 import com.codename1.components.ImageViewer;
+import com.codename1.ui.Button;
 
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
@@ -19,10 +21,12 @@ import com.codename1.ui.events.ActionListener;
 
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
+import com.codename1.ui.plaf.UIManager;
+import com.codename1.ui.util.Resources;
 
 import com.allforkids.raoudha.Services.serviceGarderie;
 import com.allforkids.raoudha.entities.Garderie;
-import com.codename1.ui.Toolbar;
+import com.allforkids.raoudha.myapp.MyApplication;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,13 +43,13 @@ int i;
 List l;
   private ImageViewer imgv;
     private Image img;
-    
+     private Resources theme;
+    Button suprimer;
+     Button Modifier;
+     Button AjouterEnfant;
 public AfficheGarderie () throws IOException
 {
 f=new Form("liste des Garderies");
-    Toolbar tb = f.getToolbar();
-    tb.setUIID("ToolBarFont");
-        
 serviceGarderie s=new serviceGarderie();
 ArrayList<Garderie> list =s.getList2();
  Container c=new Container(BoxLayout.y());
@@ -87,9 +91,75 @@ ArrayList<Garderie> list =s.getList2();
             l.addPointerPressedListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
-                    detailGard d;
-                    d=new detailGard(g);
-                    d.getF().show();
+//                    detailGard d;
+//                    d=new detailGard(g);
+//                    d.getF().show();
+
+
+ Form f1 = new Form(g.getNom(), BoxLayout.y());
+               
+                theme = UIManager.initFirstTheme("/theme");
+            Container c=new Container(BoxLayout.y());       
+                         Label l1 =new Label();
+              
+            l1.setText("Nous Sommes  :"+g.getNom());
+     Label l2 =new Label();
+            l2.setText("A propos Nous  :"+g.getDescription());
+          Label l3 =new Label();
+            l3.setText("Emplacement :"+g.getEmplacement()); 
+              Label l4 =new Label();
+           l4.setText("Numéro tél°:"+g.getNum_tel());
+              Label l5 =new Label();
+           l5.setText("Capacité:"+g.getCapacite());
+                 c.add(l1);
+           c.add(l2);
+           c.add(l3);
+           c.add(l4);
+           c.add(l5);
+           f1.add(c);
+            f1.getAllStyles().setBgColor(0xFFFACD);
+            
+            
+             f1.getToolbar().addCommandToLeftBar("Back", theme.getImage("cal_left_arrow.png"), new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent evt) {
+                        f.showBack();
+                    }
+                });
+             Container c0=new Container(BoxLayout.x());  
+              Container c00=new Container(BoxLayout.x());  
+             AjouterEnfant= new Button("Ajouter Enfant"); 
+             suprimer =new Button("Delete");
+             Modifier=new Button("Update");
+            c00.add(AjouterEnfant);
+             c0.add(suprimer);
+             c0.add(Modifier);
+             f1.add(c0);
+             f1.add(c00);
+              suprimer.addActionListener((e)->{
+                  serviceGarderie s=new serviceGarderie();
+                  s.supprimer(g);
+                  
+        
+                  if(Dialog.show("Confirmation",
+              "vous avez Supprimer la garderie du nom "+
+                      g.getNom()
+                      , "ok", "Cancel"))f1.showBack();
+
+        });
+             
+          Modifier.addActionListener((e)->{
+ModifierGarderie m =new ModifierGarderie(g);
+m.getF().show();
+
+        });
+             
+ AjouterEnfant.addActionListener((e)->{
+AjouterEnfant enf =new AjouterEnfant(g);
+enf.getF().show();
+
+        });
+                f1.show();
                     
                     
                     
@@ -97,14 +167,17 @@ ArrayList<Garderie> list =s.getList2();
             });
             
          
-         
-         
-         
+    
          
         }
  f.add(c);
    f.getAllStyles().setBgColor(0xFFFACD);
-// f.show();
+ f.show();
+ 
+ f.getToolbar().addCommandToLeftBar("Back", null, e -> {
+     MyApplication hm = new MyApplication();
+     hm.getF().show();
+ });
 }
    
    

@@ -97,7 +97,7 @@ public class UserService {
             us.setPrenom(String.valueOf(list.get("prenom")));
             us.setEmail(String.valueOf(list.get("email")));
             us.setUsername(String.valueOf(list.get("username")));
-            us.setContact(Long.parseLong(list.get("contact").toString()));
+//            us.setContact(Long.parseLong(list.get("contact").toString()));
             us.setImage(String.valueOf(list.get("image")));
             
         } else {

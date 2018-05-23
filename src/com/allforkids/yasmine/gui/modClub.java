@@ -44,6 +44,13 @@ public class modClub {
         gouv = new TextField();
         btnMod = new Button("Modifier");
 
+        
+         nom.setHint("nom");
+        desc.setHint("description");
+        numTel.setHint("Num Tel°");
+        gouv.setHint("gouvernerat");
+        
+        
         nom.setText(club.getNom());
         desc.setText(club.getDescription());
         numTel.setText(club.getNumTel());

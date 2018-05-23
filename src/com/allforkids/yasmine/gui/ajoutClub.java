@@ -16,6 +16,7 @@ import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.allforkids.yasmine.entities.ClubEntity;
 import com.allforkids.yasmine.services.ClubService;
+import com.allforkids.yasmine.services.validation;
 import com.codename1.ui.Toolbar;
 
 /**
@@ -36,6 +37,7 @@ public class ajoutClub {
     private Command quit;
     private Command listeClub;
     private Command ajouterClub;
+    private Command rec;
 
     public ajoutClub() {
         f = new Form("Ajout Club");
@@ -48,97 +50,105 @@ public class ajoutClub {
         gouv = new TextField();
         btnajout = new Button("ajouter");
 
+        
+        
+        nom.setHint("nom");
+        desc.setHint("description");
+        numTel.setHint("Num Tel°");
+        gouv.setHint("gouvernerat");
+        
+        
         Home = new Command("Home");
         listeClub = new Command("Liste des clubs");
         quit = new Command("Quitter l'application");
         ajouterClub = new Command("Ajouter Club");
-
+        rec = new Command("Envoyer Reclamation");
         f.add(nom);
         f.add(desc);
         f.add(numTel);
         f.add(gouv);
         f.add(btnajout);
 
-        f.getToolbar().addCommandToSideMenu("Home", null,(ActionListener) (ActionEvent evt) -> {
+        f.getToolbar().addCommandToSideMenu("Home", null, (ActionListener) (ActionEvent evt) -> {
             HomeForm hm = new HomeForm();
             hm.getF().show();
             System.out.println("Home Confirme");
         });
-        f.getToolbar().addCommandToSideMenu("Ajouter Club", null,(ActionListener) (ActionEvent evt) -> {
+        f.getToolbar().addCommandToSideMenu("Ajouter Club", null, (ActionListener) (ActionEvent evt) -> {
             ajoutClub ajoutC = new ajoutClub();
             ajoutC.getF().show();
         });
-        f.getToolbar().addCommandToSideMenu("Lister Club", null,(ActionListener) (ActionEvent evt) -> {
+        f.getToolbar().addCommandToSideMenu("Lister Club", null, (ActionListener) (ActionEvent evt) -> {
             listerC list = new listerC();
             list.getF().show();
         });
-        f.getToolbar().addCommandToSideMenu("Quitter l'application", null,(ActionListener) (ActionEvent evt) -> {
+
+        f.getToolbar().addCommandToSideMenu("Envoyer Reclamation", null, (ActionListener) (ActionEvent evt) -> {
+            envoiRec r = new envoiRec();
+            r.getF().show();
+
+        });
+
+        f.getToolbar().addCommandToSideMenu("Quitter l'application", null, (ActionListener) (ActionEvent evt) -> {
             Display.getInstance().exitApplication();
         });
 
         btnajout.addActionListener((e) -> {
 
-            ClubService s = new ClubService();
-            ClubEntity c = new ClubEntity();
-            c.setNom(nom.getText());
-            c.setDescription(desc.getText());
-            c.setNumTel(numTel.getText());
-            c.setGouvernorat(gouv.getText());
+            boolean isnotempty = validation.isTextFieldNotEmpty(nom);
+            boolean isnotempty1 = validation.isTextFieldNotEmpty(desc);
+            boolean isnotempty2 = validation.isTextFieldNotEmpty(gouv);
+            boolean isnotempty3 = validation.isTextFieldNotEmpty(numTel);
 
-            s.ajoutClub(c);
-            Dialog.show("Clubs", "Club ajouté !", "ok", null);
+            boolean isespace;
+            isespace = numTel.getText().trim().length() > 0;
+
+            if (isnotempty && isnotempty1 && isnotempty2 && isnotempty3 && isespace) {
+                if (ValidInputs()) {
+                    ClubService s = new ClubService();
+                    ClubEntity c = new ClubEntity();
+                    c.setNom(nom.getText());
+                    c.setDescription(desc.getText());
+                    c.setNumTel(numTel.getText());
+                    c.setGouvernorat(gouv.getText());
+
+                    s.ajoutClub(c);
+                    Dialog.show("Clubs", "Club ajouté !", "ok", null);
+                    listerC list = new listerC();
+                    list.getF().show();
+                }
+
+            } else {
+                Dialog.show("Alerte", "veuillez saisir tous les champs !", "ok", null);
+            }
         });
-
-//        f.addCommandListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent evt) {
-//
-//                Command cmd = evt.getCommand();
-//                if (cmd == Home) {
-//                    homeClub h;
-//                    h = new homeClub();
-//
-//                } else if (cmd == quit) {
-//
-//                    Display.getInstance().exitApplication();
-//
-//                } else if (cmd == listeClub) {
-//
-//                    listerC list = new listerC();
-//                    list.getF().show();
-//
-//                } else if (cmd == ajouterClub) {
-//
-//                    ajoutClub ajoutC = new ajoutClub();
-//                    ajoutC.getF().show();
-//
-//                }
-//
-//            }
-//        });
 
     }
 
-//        f = new Form("home");
-//        tnom = new TextField();
-//        tetat = new TextField();
-//        btnajout = new Button("ajouter");
-//        btnaff=new Button("Affichage");
-//        f.add(tnom);
-//        f.add(tetat);
-//        f.add(btnajout);
-//        f.add(btnaff);
-//        btnajout.addActionListener((e) -> {
-//            ServiceTask ser = new ServiceTask();
-//            Task t = new Task(0, tnom.getText(), tetat.getText());
-//            ser.ajoutTask(t);
-//            
-//
-//        });
-//        btnaff.addActionListener((e)->{
-//        Affichage a=new Affichage();
-//        a.getF().show();
-//        });
+    public boolean ValidInputs() {
+
+        if (isNotInteger(numTel.getText())) {
+            Dialog.show("Alerte", "Numéro de téléphone non valide", "OK", null);
+            return false;
+        }
+//        else if ( (!txtmail.getText().contains("@")) || (!txtmail.getText().contains(".")) ){
+//             Dialog.show("Erreur","Email non valide", "OK", null);
+//             return false;
+//        }
+
+        return true;
+    }
+
+    public static boolean isNotInteger(String s) {
+        try {
+            Integer.parseInt(s);
+        } catch (NumberFormatException | NullPointerException e) {
+            return true;
+        }
+
+        return false;
+    }
+
     public Form getF() {
         return f;
     }

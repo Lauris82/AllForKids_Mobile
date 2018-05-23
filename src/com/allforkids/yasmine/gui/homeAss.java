@@ -28,6 +28,8 @@ public class homeAss {
     private Command quit;
     private Command listeAss;
     private Command ajouterAss;
+    private Command rec;
+
 
     public homeAss() {
     
@@ -48,6 +50,7 @@ public class homeAss {
         listeAss = new Command("Liste des Association");
         quit = new Command("Quitter l'application");
         ajouterAss = new Command("Ajouter Club");
+        rec = new Command("Envoyer Reclamation");
 
         //--Ajout des menu (command) a la fenetre
         f.getToolbar().addCommandToSideMenu("Home", null,(ActionListener) (ActionEvent evt) -> {
@@ -63,44 +66,23 @@ public class homeAss {
             listeAss list = new listeAss();
             list.getF().show();
         });
+        
+          f.getToolbar().addCommandToSideMenu("Envoyer Reclamation", null,(ActionListener) (ActionEvent evt) -> {
+            envoiRec r=new envoiRec();
+            r.getF().show();
+            
+        });
+        
         f.getToolbar().addCommandToSideMenu("Quitter l'application", null,(ActionListener) (ActionEvent evt) -> {
             Display.getInstance().exitApplication();
         });
+        
+        
+
         //ajouter les element creer à la fenetre de l'interface
         f.addComponent(texte);
         f.addComponent(texte2);
-        //affichage de la fenetre
-//        f.show();
-//        f.addCommandListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent evt) {
-//
-//               Command cmd = evt.getCommand();
-//                if (cmd == Home) {
-//                    homeAss h = new homeAss();
-//                    h.getF();
-//
-//                } else if (cmd == quit) {
-//
-//                    Display.getInstance().exitApplication();
-//
-//                } else if (cmd == listeAss) {
-//
-//                    listeAss list = new listeAss();
-//                    list.getF().show();
-//
-//                } else if (cmd == ajouterAss) {
-//
-//                    ajoutAss ajoutA = new ajoutAss();
-//                    ajoutA.getF().show();
-//
-//                }
-//
-//            }
-//        });
-//        f.show();
-    
-    
+        
     
     }
 

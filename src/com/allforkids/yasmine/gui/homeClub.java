@@ -28,6 +28,7 @@ public class homeClub {
     private Command quit;
     private Command listeClub;
     private Command ajouterClub;
+    private Command rec;
 
     public homeClub() {
         //creatin d'une interface ou fenetre--
@@ -47,6 +48,7 @@ public class homeClub {
         listeClub = new Command("Liste des clubs");
         quit = new Command("Quitter l'application");
         ajouterClub = new Command("Ajouter Club");
+        rec = new Command("Envoyer Reclamation");
 
         //--Ajout des menu (command) a la fenetre
         f.getToolbar().addCommandToSideMenu("Home", null,(ActionListener) (ActionEvent evt) -> {
@@ -62,6 +64,13 @@ public class homeClub {
             listerC list = new listerC();
             list.getF().show();
         });
+        
+          f.getToolbar().addCommandToSideMenu("Envoyer Reclamation", null,(ActionListener) (ActionEvent evt) -> {
+            envoiRec r=new envoiRec();
+            r.getF().show();
+            
+        });
+        
         f.getToolbar().addCommandToSideMenu("Quitter l'application", null,(ActionListener) (ActionEvent evt) -> {
             Display.getInstance().exitApplication();
         });

@@ -5,12 +5,12 @@
  */
 package com.allforkids.raoudha.gui;
 
+import com.allforkids.raoudha.myapp.MyApplication;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.NetworkManager;
 import com.codename1.ui.Button;
 import com.codename1.ui.Form;
 import com.codename1.ui.TextField;
-import com.codename1.ui.Toolbar;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BoxLayout;
@@ -27,8 +27,6 @@ public class AjouterGarderie
     public AjouterGarderie()
     {
     f =new Form("Ajout Garderie",BoxLayout.y());
-    Toolbar tb = f.getToolbar();
-    tb.setUIID("ToolBarFont");
     TextField txt1=new TextField("","Nom");
     TextField txt2=new TextField("","Emplacement");
     TextField txt3=new TextField("","Description");
@@ -58,11 +56,15 @@ public class AjouterGarderie
     })
     ;
     
-    f.getToolbar().addCommandToRightBar("back", null, (ev)->{
-        Home h=new Home();
-        h.getF().show();
-    });
-//    f.show();
+//    f.getToolbar().addCommandToRightBar("back", null, (ev)->{Home h=new Home();
+//          h.getF().show();
+//          });
+    f.show();
+ 
+ f.getToolbar().addCommandToLeftBar("Back", null, e -> {
+     MyApplication hm = new MyApplication();
+     hm.getF().show();
+ });
     
     
     }

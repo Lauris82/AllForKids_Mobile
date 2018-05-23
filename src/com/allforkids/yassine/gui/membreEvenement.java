@@ -44,7 +44,7 @@ Image img ;
      c2.addAll(l,l2);
     
      Container c3=new Container(BoxLayout.x());
-     Label l3=new Label("Nombre de places disponible=");
+     Label l3=new Label("Places disponible=");
       l3.getAllStyles().setFgColor(0xFF0000);
         
      Label l4=new Label(String.valueOf(p-nbrR));

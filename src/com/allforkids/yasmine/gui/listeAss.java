@@ -38,6 +38,7 @@ class listeAss {
     private Command quit;
     private Command listeAss;
     private Command ajouterAss;
+    private Command rec;
 
     public listeAss() {
 
@@ -50,6 +51,7 @@ class listeAss {
         listeAss = new Command("Liste des Association");
         quit = new Command("Quitter l'application");
         ajouterAss = new Command("Ajouter Association");
+        rec = new Command("Envoyer Reclamation");
 
         AssService s = new AssService();
         ArrayList<AssociationEntity> list = s.getList2();
@@ -102,6 +104,14 @@ class listeAss {
             listeAss lists = new listeAss();
             lists.getF().show();
         });
+        
+          f.getToolbar().addCommandToSideMenu("Envoyer Reclamation", null,(ActionListener) (ActionEvent evt) -> {
+            envoiRec r=new envoiRec();
+            r.getF().show();
+            
+        });
+        
+        
         f.getToolbar().addCommandToSideMenu("Quitter l'application", null,(ActionListener) (ActionEvent evt) -> {
             Display.getInstance().exitApplication();
         });

@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.allforkids.yasmine.services.ClubService;
 import com.codename1.ui.Toolbar;
+import java.io.IOException;
 
 /**
  *
@@ -38,6 +39,7 @@ public class listerC {
     private Command quit;
     private Command listeClub;
     private Command ajouterClub;
+    private Command rec;
 
     public listerC() {
 
@@ -50,6 +52,7 @@ public class listerC {
         listeClub = new Command("Liste des clubs");
         quit = new Command("Quitter l'application");
         ajouterClub = new Command("Ajouter Club");
+        rec = new Command("Envoyer Reclamation");
 
         ClubService s = new ClubService();
         ArrayList<ClubEntity> list = s.getList2();
@@ -78,9 +81,12 @@ public class listerC {
 
                 @Override
                 public void actionPerformed(ActionEvent evt) {
-                    detailClub d;
-                    d = new detailClub(club);
-                    d.getF().show();
+                    try {
+                        detailClub d;
+                        d = new detailClub(club);
+                        d.getF().show();
+                    } catch (IOException ex) {
+                    }
                 }
             });
 
@@ -102,6 +108,13 @@ public class listerC {
             listerC lists = new listerC();
             lists.getF().show();
         });
+        
+          f.getToolbar().addCommandToSideMenu("Envoyer Reclamation", null,(ActionListener) (ActionEvent evt) -> {
+            envoiRec r=new envoiRec();
+            r.getF().show();
+            
+        });
+        
         f.getToolbar().addCommandToSideMenu("Quitter l'application", null,(ActionListener) (ActionEvent evt) -> {
             Display.getInstance().exitApplication();
         });

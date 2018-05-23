@@ -16,6 +16,7 @@ import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.allforkids.yasmine.entities.AssociationEntity;
 import com.allforkids.yasmine.services.AssService;
+import com.allforkids.yasmine.services.validation;
 import com.codename1.ui.Toolbar;
 
 /**
@@ -24,7 +25,7 @@ import com.codename1.ui.Toolbar;
  */
 public class ajoutAss {
 
-  Form f;
+    Form f;
     TextField nom;
     TextField desc;
     TextField numTel;
@@ -36,6 +37,7 @@ public class ajoutAss {
     private Command quit;
     private Command listeAss;
     private Command ajouterAss;
+    private Command rec;
 
     public ajoutAss() {
         f = new Form("Ajout Association");
@@ -48,10 +50,17 @@ public class ajoutAss {
         gouv = new TextField();
         btnajout = new Button("ajouter");
 
+        
+        nom.setHint("nom");
+        desc.setHint("description");
+        numTel.setHint("Num Tel°");
+        gouv.setHint("gouvernerat");
+        
         Home = new Command("Home");
         listeAss = new Command("Liste des Association");
         quit = new Command("Quitter l'application");
         ajouterAss = new Command("Ajouter Association");
+        rec = new Command("Envoyer Reclamation");
 
         f.add(nom);
         f.add(desc);
@@ -59,86 +68,84 @@ public class ajoutAss {
         f.add(gouv);
         f.add(btnajout);
 
-        f.getToolbar().addCommandToSideMenu("Home", null,(ActionListener) (ActionEvent evt) -> {
+        f.getToolbar().addCommandToSideMenu("Home", null, (ActionListener) (ActionEvent evt) -> {
             HomeForm hm = new HomeForm();
             hm.getF().show();
             System.out.println("Home Confirme");
         });
-        f.getToolbar().addCommandToSideMenu("Ajouter Association", null,(ActionListener) (ActionEvent evt) -> {
+        f.getToolbar().addCommandToSideMenu("Ajouter Association", null, (ActionListener) (ActionEvent evt) -> {
             ajoutAss ajoutA = new ajoutAss();
             ajoutA.getF().show();
         });
-        f.getToolbar().addCommandToSideMenu("Lister Association", null,(ActionListener) (ActionEvent evt) -> {
+        f.getToolbar().addCommandToSideMenu("Lister Association", null, (ActionListener) (ActionEvent evt) -> {
             listeAss list = new listeAss();
             list.getF().show();
         });
-        f.getToolbar().addCommandToSideMenu("Quitter l'application", null,(ActionListener) (ActionEvent evt) -> {
+
+        f.getToolbar().addCommandToSideMenu("Envoyer Reclamation", null, (ActionListener) (ActionEvent evt) -> {
+            envoiRec r = new envoiRec();
+            r.getF().show();
+
+        });
+
+        f.getToolbar().addCommandToSideMenu("Quitter l'application", null, (ActionListener) (ActionEvent evt) -> {
             Display.getInstance().exitApplication();
         });
 
         btnajout.addActionListener((e) -> {
 
-            AssService s = new AssService();
-            AssociationEntity c = new AssociationEntity();
-            c.setNom(nom.getText());
-            c.setDescription(desc.getText());
-            c.setNum_tel(Integer.valueOf(numTel.getText()));
-            c.setGouvernorat(gouv.getText());
+            boolean isnotempty = validation.isTextFieldNotEmpty(nom);
+            boolean isnotempty1 = validation.isTextFieldNotEmpty(desc);
+            boolean isnotempty2 = validation.isTextFieldNotEmpty(gouv);
+            boolean isnotempty3 = validation.isTextFieldNotEmpty(numTel);
 
-            s.ajoutAss(c);
-            Dialog.show("Clubs", "Club ajouté !", "ok", null);
+         boolean isespace;
+            isespace=numTel.getText().trim().length() > 0;
+  
+             if (isnotempty && isnotempty1 && isnotempty2 && isnotempty3 && isespace ){
+                 if(ValidInputs()){
+                    AssService s = new AssService();
+                    AssociationEntity c = new AssociationEntity();
+                    c.setNom(nom.getText());
+                    c.setDescription(desc.getText());
+                    c.setNum_tel(Integer.valueOf(numTel.getText()));
+                    c.setGouvernorat(gouv.getText());
+
+                    s.ajoutAss(c);
+                    Dialog.show("Associations", "Association ajouté !", "ok", null);
+                    
+                        listeAss list = new listeAss();
+            list.getF().show();
+                }
+            } else {
+                Dialog.show("Alerte", "veuillez saisir tous les champs !", "ok", null);
+            }
+
         });
-
-//        f.addCommandListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent evt) {
-//
-//                Command cmd = evt.getCommand();
-//                if (cmd == Home) {
-//                    homeAss h;
-//                    h = new homeAss();
-//
-//                } else if (cmd == quit) {
-//
-//                    Display.getInstance().exitApplication();
-//
-//                } else if (cmd == listeAss) {
-//
-//                    listeAss list = new listeAss();
-//                    list.getF().show();
-//
-//                } else if (cmd == ajouterAss) {
-//
-//                    ajoutAss ajoutA = new ajoutAss();
-//                    ajoutA.getF().show();
-//
-//                }
-//
-//            }
-//        });
 
     }
 
-//        f = new Form("home");
-//        tnom = new TextField();
-//        tetat = new TextField();
-//        btnajout = new Button("ajouter");
-//        btnaff=new Button("Affichage");
-//        f.add(tnom);
-//        f.add(tetat);
-//        f.add(btnajout);
-//        f.add(btnaff);
-//        btnajout.addActionListener((e) -> {
-//            ServiceTask ser = new ServiceTask();
-//            Task t = new Task(0, tnom.getText(), tetat.getText());
-//            ser.ajoutTask(t);
-//            
-//
-//        });
-//        btnaff.addActionListener((e)->{
-//        Affichage a=new Affichage();
-//        a.getF().show();
-//        });
+    public boolean ValidInputs() {
+
+        if (isNotInteger(numTel.getText())) {
+            Dialog.show("Alerte", "Numéro de téléphone non valide", "OK", null);
+            return false;
+        }
+        
+
+        return true;
+    }
+
+    public static boolean isNotInteger(String s) {
+        try {
+            Integer.parseInt(s);
+        } catch (NumberFormatException | NullPointerException e) {
+            return true;
+        }
+
+        return false;
+    }
+
     public Form getF() {
         return f;
     }
@@ -187,6 +194,4 @@ public class ajoutAss {
         this.btnajout = btnajout;
     }
 
-
-    
 }

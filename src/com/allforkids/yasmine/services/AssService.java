@@ -34,12 +34,12 @@ public class AssService {
             @Override
             public void actionPerformed(NetworkEvent evt) {
                 try {
-                    //listTasks = getListTask(new String(con.getResponseData()));
                     JSONParser jsonp = new JSONParser();
-
+//con.response resultat de l'url caster sur string
+//json parssir convertie e result en map pour parcourir le resultat
                     Map<String, Object> ass = jsonp.parseJSON(new CharArrayReader(new String(con.getResponseData()).toCharArray()));
                     System.out.println(ass);
-                    //System.out.println(tasks);
+                    // recuperer le map get(root)
                     List<Map<String, Object>> list = (List<Map<String, Object>>) ass.get("root");
                     for (Map<String, Object> obj : list) {
                         AssociationEntity e = new AssociationEntity();
@@ -70,7 +70,7 @@ public class AssService {
             }
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
-        // NetworkManager.getInstance().addToQueue(con); ==> ye5dem toul affichage mayestanech resultat tjih heka 3leh tji ferr8a 
+        // NetworkManager.getInstance().addToQueue(con); 
         return listass;
     }
     
@@ -91,6 +91,7 @@ public class AssService {
             System.out.println("tessssssssssssssst");
 
         });
+        //executer la requete
         NetworkManager.getInstance().addToQueueAndWait(con);
         System.out.println(str + " tst ");
 
@@ -118,7 +119,29 @@ public class AssService {
 
     }
         
+      
+        public void supprimerA(AssociationEntity ta){
+    
+    
+              ConnectionRequest con = new ConnectionRequest();
+
+        String Url = "http://localhost/AllForKids/web/app_dev.php/Web_S_suppA?idc=" +ta.getId_aasociation();
+        System.out.println(Url);
+        con.setUrl(Url);
+
+        con.addResponseListener((e) -> {
+            str = new String(con.getResponseData());
+//            System.out.println(str);
+
+            System.out.println("tessssssssssssssst");
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        System.out.println(str + " tst ");
+            
         
+    }
+      
     
     
 }

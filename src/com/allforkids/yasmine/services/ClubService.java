@@ -115,5 +115,27 @@ public class ClubService {
     }
     
     
+    public void supprimerC(ClubEntity ta){
+    
+    
+              ConnectionRequest con = new ConnectionRequest();
+
+        String Url = "http://localhost/AllForKids/web/app_dev.php/Web_S_supp?idc=" +ta.getIdclub();
+        System.out.println(Url);
+        con.setUrl(Url);
+
+        con.addResponseListener((e) -> {
+            str = new String(con.getResponseData());
+//            System.out.println(str);
+
+            System.out.println("tessssssssssssssst");
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        System.out.println(str + " tst ");
+            
+        
+    }
+    
 
 }
